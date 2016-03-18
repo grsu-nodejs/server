@@ -13,8 +13,8 @@ function accept(req, res) {
 
 	request(url, function (error, response, body) {
 		if (!error) {
-			$ = cheerio.load(body),
-        	links = [];
+			$ = cheerio.load(body);
+        	var links = [];
 
             $("head > link[rel=archives]").each(function () {
                 links.push({
@@ -23,8 +23,8 @@ function accept(req, res) {
                 });
       		});
             
-	    	links.forEach(function(item,i){
-                sendRequest(item.href,item.title);
+	    	links.forEach(function(item){
+               sendRequest(item.href,item.title);
 	    	});
 
 		    res.end(links.length.toString());
@@ -38,7 +38,6 @@ function accept(req, res) {
 function sendRequest(link, title) {
     request(link, function (error, response, body) {
 
-        $page = cheerio.load(body);
         
         if(response.statusCode === 503){
             
@@ -46,16 +45,18 @@ function sendRequest(link, title) {
             
         } else {
             
+            $page = cheerio.load(body);
+            
             var links = [];
 
             $page("#wp-calendar > tbody a").each(function () {
                 links.push({
-                          href:$(this).attr('href')
+                        href:$(this).attr('href')
                     });
             });
             
             links.forEach(function(item){
-                console.log(item.href);
+                getArticlesForDay(item.href);
             });
 
         }
@@ -66,18 +67,40 @@ function getArticlesForDay(link){
     request(link, function (error, response, body) {
         
         var links = [];
+        
+        $ = cheerio.load(body);
 
-        $("#wp-calendar > tbody a").each(function () {
+        $(".itemhead a[rel=bookmark]").each(function () {
             links.push({
-                      href:$(this).attr('href')
+                    href:$(this).attr('href')
                 });
         });
         
-    	links.forEach(function(item,i){
-            console.log(item.href);
+    	links.forEach(function(item){
+            getArticle(item.href);
     	});
         
 	});
+}
+function getArticle(link){
+    request(link, function (error, response, body) {
+        
+        $ = cheerio.load(body);
+        var str = "";
+        $(".itemtext p").each(function () {
+            str += $(this).text();
+        });
+
+        articles.push({
+            text:str,
+            title:$(".itemhead a[rel=bookmark]").text()
+        });
+        
+        articles.forEach(function(item){
+            console.log(item);
+    	});
+        
+    });
 }
 
 function start(){
