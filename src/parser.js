@@ -5,7 +5,7 @@ var request = require("request"),
 
 var articles = [];
 
-function getAllArticlesJSON(response) {
+function getLoadedArticlesJSON(response) {
 
     response.writeHead(200, {
         "Content-Type": "application/json; charset=utf-8"
@@ -16,40 +16,40 @@ function getAllArticlesJSON(response) {
     response.end("");
 }
 
-function loadDate() {
+function loadAllArticles() {
     request(url, function (error, response, body) {
 
         if (error || response.statusCode === 503)
-            loadDate(link);
+            loadAllArticles();
         else
-            loadDataBySelectorWith(body, "head > link[rel=archives]", sendRequest);
+            loadDataBySelectorWithMethod(body, "head > link[rel=archives]", loadArticlesPerMonth);
     });
 }
 
-function sendRequest(link) {
+function loadArticlesPerMonth(link) {
     request(link, function (error, response, body) {
 
         if (error || response.statusCode === 503)
-            sendRequest(link);
+            loadArticlesPerMonth(link);
         else
-            loadDataBySelectorWith(body, "#wp-calendar > tbody a", getArticlesForDay);
+            loadDataBySelectorWithMethod(body, "#wp-calendar > tbody a", loadArticlesPerDay);
     });
 }
 
-function getArticlesForDay(link) {
+function loadArticlesPerDay(link) {
     request(link, function (error, response, body) {
 
         if (error || response.statusCode === 503)
-            getArticlesForDay(link);
+            loadArticlesPerDay(link);
         else
-            loadDataBySelectorWith(body, ".itemhead a[rel=bookmark]", getArticle);
+            loadDataBySelectorWithMethod(body, ".itemhead a[rel=bookmark]", loadArticle);
     });
 }
 
-function getArticle(link) {
+function loadArticle(link) {
     request(link, function (error, response, body) {
         if (error || response.statusCode === 503) {
-            getArticle(link)
+            loadArticle(link)
         }
         else {
             var $ = cheerio.load(body);
@@ -68,7 +68,7 @@ function getArticle(link) {
 }
 
 
-function loadDataBySelectorWith(body, selector, withMethod) {
+function loadDataBySelectorWithMethod(body, selector, withMethod) {
     var links = [];
     var $page = cheerio.load(body);
 
@@ -83,5 +83,5 @@ function loadDataBySelectorWith(body, selector, withMethod) {
     });
 }
 
-exports.getAllArticlesJSON = getAllArticlesJSON;
-exports.loadDate = loadDate;
+exports.getLoadedArticlesJSON = getLoadedArticlesJSON;
+exports.loadAllArticles = loadAllArticles;
