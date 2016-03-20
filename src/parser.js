@@ -10,7 +10,6 @@ function getLoadedArticlesJSON(response) {
     response.writeHead(200, {
         "Content-Type": "application/json; charset=utf-8"
     });
-
     response.write(JSON.stringify(articles));
 
     response.end("");
@@ -58,10 +57,17 @@ function loadArticle(link) {
                 str += $(this).text();
             });
 
+            var title = $(".itemhead a[rel=bookmark]").text();
+            var author = $(".metadata strong").text();
+            var meta = $(".itemhead > p").text();
+            var date = meta.substring(meta.indexOf(author) + author.length + 2, meta.indexOf("Кейворды") - 1);
+
             articles.push({
+                href: link,
+                title: title,
+                author: author,
                 text: str,
-                title: $(".itemhead a[rel=bookmark]").text(),
-                href: link
+                date: date
             });
         }
     });
