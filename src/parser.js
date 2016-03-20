@@ -3,74 +3,66 @@ var request = require("request"),
     parser = require("./parser"),
     url = "http://s13.ru/";
 
-
 var articles = [];
+function loadDate() {
+    request(url, function (error, res, body) {
+        var $ = cheerio.load(body);
+        var links = [];
 
-function getAllArticles(response) {
+        $("head > link[rel=archives]").each(function () {
+            links.push({
+                href: $(this).attr('href') + '/31',
+                title: $(this).attr('title')
+            });
+        });
+        links.forEach(function (item) {
+            sendRequest(item.href, item.title);
+        });
+    });
+}
+function getAllArticlesJSON(response) {
 
     response.writeHead(200, {
         "Content-Type": "application/json; charset=utf-8"
     });
 
-    request(url, function (error, res, body) {
-        if (!error) {
-            var $ = cheerio.load(body);
-            var links = [];
+    response.write(JSON.stringify(articles));
 
-            $("head > link[rel=archives]").each(function () {
-                links.push({
-                    href: $(this).attr('href') + '/0',
-                    title: $(this).attr('title')
-                });
-            });
-
-            links.forEach(function (item) {
-                sendRequest(item.href, item.title);
-            });
-
-
-            response.write(JSON.stringify(articles));
-
-            response.end("");
-
-        } else {
-            response.end("error" + error);
-        }
-    });
+    response.end("");
 }
 
 function sendRequest(link, title) {
     request(link, function (error, response, body) {
 
-        if (!error) {
-            if (response.statusCode === 503) {
+        if (error || response.statusCode === 503) {
+            sendRequest(link, title);
+        } else {
 
-                sendRequest(link, title);
+            var $page = cheerio.load(body);
 
-            } else {
+            var links = [];
 
-                var $page = cheerio.load(body);
-
-                var links = [];
-
-                $page("#wp-calendar > tbody a").each(function () {
-                    links.push({
-                        href: $page(this).attr('href')
-                    });
+            $page("#wp-calendar > tbody a").each(function () {
+                links.push({
+                    href: $page(this).attr('href')
                 });
+            });
 
-                links.forEach(function (item) {
-                    getArticlesForDay(item.href);
-                });
+            links.forEach(function (item) {
+                getArticlesForDay(item.href);
+            });
 
-            }
         }
+
     });
 }
 
 function getArticlesForDay(link) {
     request(link, function (error, response, body) {
-        if (!error) {
+        if (error || response.statusCode === 503) {
+            getArticlesForDay(link);
+        }
+        else {
             var links = [];
 
             var $ = cheerio.load(body);
@@ -90,7 +82,10 @@ function getArticlesForDay(link) {
 
 function getArticle(link) {
     request(link, function (error, response, body) {
-        if (!error) {
+        if (error || response.statusCode === 503) {
+            getArticle(link)
+        }
+        else {
             var $ = cheerio.load(body);
             var str = "";
             $(".itemtext p").each(function () {
@@ -99,13 +94,12 @@ function getArticle(link) {
 
             articles.push({
                 text: str,
-                title: $(".itemhead a[rel=bookmark]").text()
+                title: $(".itemhead a[rel=bookmark]").text(),
+                href: link
             });
-
         }
-
-
     });
 }
 
-exports.getAllArticles = getAllArticles;
+exports.getAllArticlesJSON = getAllArticlesJSON;
+exports.loadDate = loadDate;
