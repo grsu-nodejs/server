@@ -13,7 +13,7 @@ function start(route, handlers) {
         route(handlers, pathname, response);
     }
 
-    parser.loadDate();
+    parser.loadAllArticles();
     http.createServer(onRequest).listen(8080);
 }
 

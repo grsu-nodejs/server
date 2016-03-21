@@ -4,86 +4,51 @@ var request = require("request"),
     url = "http://s13.ru/";
 
 var articles = [];
-function loadDate() {
-    request(url, function (error, res, body) {
-        var $ = cheerio.load(body);
-        var links = [];
 
-        $("head > link[rel=archives]").each(function () {
-            links.push({
-                href: $(this).attr('href') + '/31',
-                title: $(this).attr('title')
-            });
-        });
-        links.forEach(function (item) {
-            sendRequest(item.href, item.title);
-        });
-    });
-}
-function getAllArticlesJSON(response) {
+function getLoadedArticlesJSON(response) {
 
     response.writeHead(200, {
         "Content-Type": "application/json; charset=utf-8"
     });
-
     response.write(JSON.stringify(articles));
 
     response.end("");
 }
 
-function sendRequest(link, title) {
-    request(link, function (error, response, body) {
+function loadAllArticles() {
+    request(url, function (error, response, body) {
 
-        if (error || response.statusCode === 503) {
-            sendRequest(link, title);
-        } else {
-
-            var $page = cheerio.load(body);
-
-            var links = [];
-
-            $page("#wp-calendar > tbody a").each(function () {
-                links.push({
-                    href: $page(this).attr('href')
-                });
-            });
-
-            links.forEach(function (item) {
-                getArticlesForDay(item.href);
-            });
-
-        }
-
+        if (error || response.statusCode === 503)
+            loadAllArticles();
+        else
+            loadDataBySelectorWithMethod(body, "head > link[rel=archives]", loadArticlesPerMonth);
     });
 }
 
-function getArticlesForDay(link) {
+function loadArticlesPerMonth(link) {
     request(link, function (error, response, body) {
-        if (error || response.statusCode === 503) {
-            getArticlesForDay(link);
-        }
-        else {
-            var links = [];
 
-            var $ = cheerio.load(body);
-
-            $(".itemhead a[rel=bookmark]").each(function () {
-                links.push({
-                    href: $(this).attr('href')
-                });
-            });
-
-            links.forEach(function (item) {
-                getArticle(item.href);
-            });
-        }
+        if (error || response.statusCode === 503)
+            loadArticlesPerMonth(link);
+        else
+            loadDataBySelectorWithMethod(body, "#wp-calendar > tbody a", loadArticlesPerDay);
     });
 }
 
-function getArticle(link) {
+function loadArticlesPerDay(link) {
+    request(link, function (error, response, body) {
+
+        if (error || response.statusCode === 503)
+            loadArticlesPerDay(link);
+        else
+            loadDataBySelectorWithMethod(body, ".itemhead a[rel=bookmark]", loadArticle);
+    });
+}
+
+function loadArticle(link) {
     request(link, function (error, response, body) {
         if (error || response.statusCode === 503) {
-            getArticle(link)
+            loadArticle(link)
         }
         else {
             var $ = cheerio.load(body);
@@ -92,14 +57,37 @@ function getArticle(link) {
                 str += $(this).text();
             });
 
+            var title = $(".itemhead a[rel=bookmark]").text();
+            var author = $(".metadata strong").text();
+            var meta = $(".itemhead > p").text();
+            var date = meta.substring(meta.indexOf(author) + author.length + 2, meta.indexOf("Кейворды") - 1);
+
             articles.push({
+                href: link,
+                title: title,
+                author: author,
                 text: str,
-                title: $(".itemhead a[rel=bookmark]").text(),
-                href: link
+                date: date
             });
         }
     });
 }
 
-exports.getAllArticlesJSON = getAllArticlesJSON;
-exports.loadDate = loadDate;
+
+function loadDataBySelectorWithMethod(body, selector, withMethod) {
+    var links = [];
+    var $page = cheerio.load(body);
+
+    $page(selector).each(function () {
+        links.push({
+            href: $page(this).attr('href')
+        });
+    });
+
+    links.forEach(function (item) {
+        withMethod(item.href);
+    });
+}
+
+exports.getLoadedArticlesJSON = getLoadedArticlesJSON;
+exports.loadAllArticles = loadAllArticles;

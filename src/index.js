@@ -3,8 +3,8 @@ var server = require("./server"),
     requestHandlers = require("./requestHandlers");
 
 
-var handlers = {}
-handlers["/"] = requestHandlers.allArticles;
-handlers["/allArticles"] = requestHandlers.allArticles;
-
+var handlers = {
+    "/" : requestHandlers.allArticles,
+    "/allArticles" : requestHandlers.allArticles
+};
 server.start(router.route, handlers);
