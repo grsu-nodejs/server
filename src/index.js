@@ -5,6 +5,8 @@ var server = require("./server"),
 
 var handlers = {
     "/" : requestHandlers.allArticles,
-    "/allArticles" : requestHandlers.allArticles
+    "/allArticles" : requestHandlers.allArticles,
+    "/day" : requestHandlers.scrapDay,
+    "/article" : requestHandlers.scrapArticle
 };
 server.start(router.route, handlers);
