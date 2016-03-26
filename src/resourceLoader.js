@@ -13,8 +13,7 @@ function loadResource(pathName, response) {
             });
             response.write(file);
             response.end();
-        }
-        else {
+        } else {
             response.writeHead(404, {
                 "Content-Type": "text/plain"
             });
@@ -23,4 +22,16 @@ function loadResource(pathName, response) {
         }
     });
 }
+
+function index(res) {
+    fs.readFile('./src/ui/index.html', function (err, html) {
+        res.writeHeader(200, {
+            "Content-Type": "text/html"
+        });
+        res.write(html);
+        res.end();
+    });
+}
+
 exports.loadResource = loadResource;
+exports.index = index;
