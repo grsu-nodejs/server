@@ -3,7 +3,16 @@
  */
 var request = require("request"),
     cheerio = require("cheerio"),
-    url = "http://s13.ru/";
+    url = "http://s13.ru/",
+    fs = require('fs');
+
+function index(res) {
+    fs.readFile('./src/index.html', function (err, html) {
+        res.writeHeader(200, {"Content-Type": "text/html"});
+        res.write(html);
+        res.end();
+    });
+}
 
 function scrapDay(res, year, month, day) {
     var entries = [];
@@ -26,6 +35,7 @@ function scrapDay(res, year, month, day) {
 
     });
 }
+
 function loadDayEntries($, entries) {
     $(".entry").each(function () {
         var data = $(this);
@@ -49,9 +59,9 @@ function loadDayEntries($, entries) {
     });
 }
 
-function loadEntry(url, res) {
+function loadEntry(res, id) {
+    url = "http://s13.ru/archives/" + id;
 
-    console.log(url);
     request(url, function (error, response, body) {
         if (error || response.statusCode != 200)
             loadEntry(url, response);
@@ -73,5 +83,6 @@ function loadEntry(url, res) {
 
 
 }
+exports.index = index;
 exports.loadEntry = loadEntry;
 exports.scrapDay = scrapDay;

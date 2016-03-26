@@ -6,18 +6,23 @@ function allArticles(response) {
 }
 
 function scrapDayArticles(response, query) {
-    var year = query['year']
+    var year = query['year'];
     var month = query['month'];
     var day = query['day'];
 
-    scraper.scrapDay(year, month, day, response);
+    scraper.scrapDay(response, year, month, day);
 }
 
 function scrapArticle(response, query){
-    var href = query['href'];
+    var id = query['id'];
 
-    scraper.loadEntry(href, response);
+    scraper.loadEntry(response, id);
 }
+
+function getIndex(response){
+    scraper.index(response);
+}
+exports.getIndex = getIndex;
 exports.scrapArticle = scrapArticle;
 exports.allArticles = allArticles;
 exports.scrapDay = scrapDayArticles;

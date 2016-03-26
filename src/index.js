@@ -4,7 +4,7 @@ var server = require("./server"),
 
 
 var handlers = {
-    "/" : requestHandlers.allArticles,
+    "/" : requestHandlers.getIndex,
     "/allArticles" : requestHandlers.allArticles,
     "/day" : requestHandlers.scrapDay,
     "/article" : requestHandlers.scrapArticle
