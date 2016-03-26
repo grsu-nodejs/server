@@ -5,15 +5,26 @@
     <meta charset="UTF-8">
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
     <script src='js/controllers.js'></script>
-    <link href='assets/css/test.css' rel='stylesheet' type='text/css' />
+    <link href='assets/css/style.css' rel='stylesheet' type='text/css' />
     <title>Title</title>
 </head>
 
 <body>
     <div ng-controller="articlesforDay">
         <input type="date" ng-model="date">
-        <button ng-click="articlesForDay(date)">GET ARTICLES HEADERS</button>
-        <div>{{name}}</div>
+        <button ng-click="articlesForDay()">GET ARTICLES HEADERS</button>
+        <div>
+            <ul>
+                <li ng-repeat="article in articles">
+
+                    <h2 ng-click="expand(article)"> {{article.title}}</h2>
+                    <span>Автор: {{article.author}}</span>
+                    <div>Дата: {{article.date}} {{article.time}}</div>
+                    <p>{{article.text}}</p>
+
+                </li>
+            </ul>
+        </div>
     </div>
 </body>
 

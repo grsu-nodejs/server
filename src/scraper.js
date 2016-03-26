@@ -31,7 +31,8 @@ function loadDayEntries($, entries) {
     $(".entry").each(function () {
         var data = $(this);
         var title = data.find("a").text();
-        var href = data.find("a").attr('href');
+        var arr = data.find("a").attr('href').split("/");
+        var id = arr[arr.length - 1];
         var text = data.children().first().next().find("p").text();
         var author = data.find("strong").text();
         var meta = data.find("p").text();
@@ -40,7 +41,7 @@ function loadDayEntries($, entries) {
         var date = fulldate.substring(0, fulldate.indexOf(','));
 
         entries.push({
-            href: href,
+            id: id,
             author: author,
             date: date,
             time: time,
