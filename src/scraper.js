@@ -67,15 +67,23 @@ function loadEntry(res, id) {
             loadEntry(url, response);
         else {
             var $ = cheerio.load(body);
-            var str = "";
+            var paragraphs = [];
+
             $(".itemtext p").each(function () {
-                str += $(this).text();
+                var textblock = $(this).text();
+                var blockquote = $(this).parent()[0].name == "blockquote";
+                var imgsrc = $(this).find('img').attr('src');
+                paragraphs.push({
+                    quote: blockquote,
+                    text: textblock,
+                    imgsrc : imgsrc
+                });
             });
         }
         res.writeHead(200, {
             "Content-Type": "application/json; charset=utf-8"
         });
-        res.write(JSON.stringify(str));
+        res.write(JSON.stringify(paragraphs));
 
         res.end("");
 
