@@ -1,7 +1,6 @@
 var http = require("http"),
     urlModule = require("url"),
-    url = "http://s13.ru/",
-    parser = require("./parser");
+    url = "http://s13.ru/";
 
 function start(route, handlers) {
 
@@ -13,7 +12,6 @@ function start(route, handlers) {
         route(handlers, pathname, response, query);
     }
 
-    //parser.loadAllArticles();
     http.createServer(onRequest).listen(8080);
 }
 

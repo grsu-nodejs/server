@@ -19,10 +19,6 @@ function scrapArticle(response, query){
     scraper.loadEntry(response, id);
 }
 
-function getIndex(response){
-    scraper.index(response);
-}
-exports.getIndex = getIndex;
 exports.scrapArticle = scrapArticle;
 exports.allArticles = allArticles;
 exports.scrapDay = scrapDayArticles;

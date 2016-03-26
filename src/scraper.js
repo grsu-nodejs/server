@@ -3,16 +3,7 @@
  */
 var request = require("request"),
     cheerio = require("cheerio"),
-    url = "http://s13.ru/",
-    fs = require('fs');
-
-function index(res) {
-    fs.readFile('./src/index.html', function (err, html) {
-        res.writeHeader(200, {"Content-Type": "text/html"});
-        res.write(html);
-        res.end();
-    });
-}
+    url = "http://s13.ru/";
 
 function scrapDay(res, year, month, day) {
     var entries = [];
@@ -88,9 +79,7 @@ function loadEntry(res, id) {
         res.end("");
 
     });
-
-
 }
-exports.index = index;
+
 exports.loadEntry = loadEntry;
 exports.scrapDay = scrapDay;

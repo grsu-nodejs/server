@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <link href='assets/css/test.css' rel='stylesheet' type='text/css' />
+    <title>Title</title>
+</head>
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+
+    <p>Today's welcome message is:</p>
+
+    <p>Name : <input type="text" ng-model="link" value="/article?id=135617"></p>
+    <input type="button" ng-click="openArticle(link)">
+    <h1>Hello {{ link }}</h1>
+    <p>{{myWelcome}}</p>
+</div>
+
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope, $http) {
+        $scope.openArticle = function(link){
+            $http.get(link)
+                    .then(function(response) {
+                        $scope.myWelcome = response.data;
+                    });
+        }
+    });
+</script>
+
+</body>
+</html>
