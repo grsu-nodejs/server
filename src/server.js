@@ -1,19 +1,17 @@
-var request = require("request"),
-    http = require("http"),
+var http = require("http"),
     urlModule = require("url"),
-    url = "http://s13.ru/",
-    parser = require("./parser");
+    url = "http://s13.ru/";
 
 function start(route, handlers) {
 
     function onRequest(request, response) {
+        var urlParts = urlModule.parse(request.url, true);
+        var pathname = urlParts.pathname;
+        var query = urlParts.query;
 
-        var pathname = urlModule.parse(request.url).pathname;
-
-        route(handlers, pathname, response);
+        route(handlers, pathname, response, query);
     }
 
-    parser.loadAllArticles();
     http.createServer(onRequest).listen(8080);
 }
 
