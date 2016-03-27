@@ -5,36 +5,61 @@
     <meta charset="UTF-8">
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
     <script src='assets/js/controllers.js'></script>
-    <link href='assets/css/style.css' rel='stylesheet' type='text/css'/>
+
+
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.2.5.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href='assets/css/style.css' rel='stylesheet' type='text/css' />
+
     <title>Title</title>
 </head>
 
 <body>
-<div ng-controller="articlesforDay">
-    <input type="date" ng-model="date">
-    <button ng-click="articlesForDay()">GET ARTICLES HEADERS</button>
-    <div>
-        <ul>
-            <li ng-repeat="article in articles" ng-controller="articleController">
 
-                <h2 ng-click="expand(article)"> {{article.title}}</h2>
-                <span>Автор: {{article.author}}</span>
-                <div>Дата: {{article.date}} {{article.time}}</div>
-                <div>{{article.text}}</div>
+    <div ng-controller="articlesforDay">
 
-                <div ng-repeat="paragraph in paragraphs">
+        <div class="row" ng-controller="datePicker">
+            <div class="col-md-6">
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="date" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                    <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+                </p>
+            </div>
+            <button class="btn btn-primary" ng-click="articlesForDay(date)">GET ARTICLES HEADERS</button>
+        </div>
 
-                    <img ng-src="{{paragraph.imgsrc}}" ng-if=paragraph.imgsrc>
+        <div>
+            <ul>
+                <li ng-repeat="article in articles" ng-controller="articleController">
 
-                    <p ng-class="{true: 'quote', false: 'text'}[paragraph.quote]">
-                        {{paragraph.text}}
-                    </p>
-                    <div>
+                    <h2 ng-click="expand(article)"> {{article.title}}</h2>
+                    <span>Автор: {{article.author}}</span>
+                    <div>Дата: {{article.date}} {{article.time}}</div>
+                    <div>{{article.text}}</div>
 
-            </li>
-        </ul>
+                    <div ng-repeat="paragraph in paragraphs">
+
+                        <img ng-src="{{paragraph.imgsrc}}" ng-if=paragraph.imgsrc>
+
+                        <p ng-class="{true: 'quote', false: 'text'}[paragraph.quote]">
+                            {{paragraph.text}}
+                        </p>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
+
+
 </body>
 
 </html>

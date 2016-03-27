@@ -1,12 +1,30 @@
 'use strict';
 
-var articlesModule = angular.module('articlesModule', []);
+var articlesModule = angular.module('articlesModule', ['ui.bootstrap']);
 
 
+articlesModule.controller('datePicker', function ($scope) {
+    $scope.today = function () {
+        $scope.date = new Date();
+    };
+    $scope.today();
+
+    $scope.open = function () {
+        $scope.popup.opened = true;
+    };
+
+    $scope.format = 'dd.MM.yyyy';
+
+    $scope.popup = {
+        opened: false
+    };
+});
 
 articlesModule.controller('articlesforDay', function ($scope, $http) {
 
-    $scope.articlesForDay = function () {
+    $scope.articlesForDay = function (date) {
+        
+        $scope.date = date;
 
         var queryString = createQueryStringForDay($scope.date);
 
@@ -24,10 +42,10 @@ articlesModule.controller('articlesforDay', function ($scope, $http) {
 
 });
 
-articlesModule.controller('articleController', function ($scope, $http){
+articlesModule.controller('articleController', function ($scope, $http) {
     $scope.expand = function (item) {
 
-        item.text=null;
+        item.text = null;
 
         var queryString = createQueryStringForArticle(item.id);
 
