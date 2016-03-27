@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var articlesModule = angular.module('articlesModule', []);
 
@@ -16,9 +16,18 @@ articlesModule.controller('articlesforDay', function ($scope, $http) {
         }).then(function (response) {
             $scope.articles = response.data;
         });
-    }
+    };
 
+    $scope.date = new Date();
+
+    $scope.articlesForDay($scope.date);
+
+});
+
+articlesModule.controller('articleController', function ($scope, $http){
     $scope.expand = function (item) {
+
+        item.text=null;
 
         var queryString = createQueryStringForArticle(item.id);
 
@@ -26,30 +35,11 @@ articlesModule.controller('articlesforDay', function ($scope, $http) {
             method: 'GET',
             url: queryString
         }).then(function (response) {
-            
-            item.text = "";
 
-            response.data.forEach(function (responseDataItem) {
-
-                item.text += responseDataItem.text;
-
-
-                if (responseDataItem.imgsrc !== undefined) {
-                    item.text += "<img src='" + responseDataItem.imgsrc + "' img/>";
-                }
-
-            });
-
-
+            $scope.paragraphs = response.data;
         });
 
-    }
-
-
-    $scope.date = new Date();
-
-    $scope.articlesForDay($scope.date);
-
+    };
 });
 
 function convertForQuery(name, value) {

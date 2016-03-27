@@ -10,7 +10,7 @@ function scrapDay(res, year, month, day) {
     url = "http://s13.ru/archives/date/" + year + "/" + month + "/" + day;
 
     request(url, function (error, response, body) {
-        if (error || response.statusCode != 200)
+        if (error || response.statusCode == 503)
             scrapDay(response, year, month, day);
         else {
             var $ = cheerio.load(body);
@@ -21,7 +21,6 @@ function scrapDay(res, year, month, day) {
             "Content-Type": "application/json; charset=utf-8"
         });
         res.write(JSON.stringify(entries));
-
         res.end("");
 
     });
@@ -30,9 +29,9 @@ function scrapDay(res, year, month, day) {
 function loadDayEntries($, entries) {
     $(".entry").each(function () {
         var data = $(this);
-        var title = data.find("a").text();
-        var arr = data.find("a").attr('href').split("/");
-        var id = arr[arr.length - 1];
+        var title = data.find("a[rel=bookmark]").text();
+        var href = data.find("a[rel=bookmark]").attr('href');
+        var id = href.substring(href.lastIndexOf('/'));
         var text = data.children().first().next().find("p").text();
         var author = data.find("strong").text();
         var meta = data.find("p").text();
@@ -55,7 +54,7 @@ function loadEntry(res, id) {
     url = "http://s13.ru/archives/" + id;
 
     request(url, function (error, response, body) {
-        if (error || response.statusCode != 200)
+        if (error || response.statusCode == 503)
             loadEntry(url, response);
         else {
             var $ = cheerio.load(body);
@@ -68,7 +67,7 @@ function loadEntry(res, id) {
                 paragraphs.push({
                     quote: blockquote,
                     text: textblock,
-                    imgsrc : imgsrc
+                    imgsrc: imgsrc
                 });
             });
         }
