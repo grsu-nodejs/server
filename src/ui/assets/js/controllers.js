@@ -3,7 +3,9 @@
 var articlesModule = angular.module('articlesModule', ['ui.bootstrap']);
 
 
-articlesModule.controller('datePicker', function ($scope) {
+
+articlesModule.controller('articlesforDay', function ($scope, $http) {
+
     $scope.today = function () {
         $scope.date = new Date();
     };
@@ -13,18 +15,17 @@ articlesModule.controller('datePicker', function ($scope) {
         $scope.popup.opened = true;
     };
 
+
     $scope.format = 'dd.MM.yyyy';
 
     $scope.popup = {
         opened: false
     };
-});
 
-articlesModule.controller('articlesforDay', function ($scope, $http) {
 
-    $scope.articlesForDay = function (date) {
-        
-        $scope.date = date;
+
+
+    $scope.articlesForDay = function () {
 
         var queryString = createQueryStringForDay($scope.date);
 

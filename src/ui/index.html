@@ -24,38 +24,39 @@
 
     <div ng-controller="articlesforDay">
 
-        <div class="row" ng-controller="datePicker">
+
+        <div class="navbar navbar-default navbar-fixed-top">
             <div class="col-md-6">
                 <p class="input-group">
-                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="date" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                    <input ng-change="articlesForDay()" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="date" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
                     <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
           </span>
                 </p>
             </div>
-            <button class="btn btn-primary" ng-click="articlesForDay(date)">GET ARTICLES HEADERS</button>
+
         </div>
 
-        <div>
-            <ul>
-                <li ng-repeat="article in articles" ng-controller="articleController">
+        <div class="page-header">
 
-                    <h2 ng-click="expand(article)"> {{article.title}}</h2>
-                    <span>Автор: {{article.author}}</span>
-                    <div>Дата: {{article.date}} {{article.time}}</div>
-                    <div>{{article.text}}</div>
+            <div class="row text-center" ng-repeat="article in articles" ng-controller="articleController">
 
-                    <div ng-repeat="paragraph in paragraphs">
+                <h2 ng-click="expand(article)"> {{article.title}}</h2>
+                <span>Автор: {{article.author}}</span>
+                <div>Дата: {{article.date}} {{article.time}}</div>
+                <div>{{article.text}}</div>
 
-                        <img ng-src="{{paragraph.imgsrc}}" ng-if=paragraph.imgsrc>
+                <div ng-repeat="paragraph in paragraphs">
 
-                        <p ng-class="{true: 'quote', false: 'text'}[paragraph.quote]">
-                            {{paragraph.text}}
-                        </p>
-                    </div>
+                    <img ng-src="{{paragraph.imgsrc}}" ng-if=paragraph.imgsrc>
 
-                </li>
-            </ul>
+                    <p ng-class="{true: 'quote', false: 'text'}[paragraph.quote]">
+                        {{paragraph.text}}
+                    </p>
+                </div>
+
+            </div>
+
         </div>
     </div>
 
