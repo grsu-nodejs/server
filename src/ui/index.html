@@ -26,8 +26,8 @@
 
 
         <div class="navbar navbar-default navbar-fixed-top">
-            <div class="col-md-6">
-                <p class="input-group">
+            <div class="col-md-2 pull-right" style="padding:10px 10px 0px 0px">
+                <p class="input-group ">
                     <input ng-change="articlesForDay()" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="date" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
                     <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -38,25 +38,25 @@
         </div>
 
         <div class="page-header">
+            <div ng-repeat="article in articles" ng-controller="articleController">
+                <div class="row">
+                    <div class="center-block col-md-8" style="float: none;">
+                        <h2 ng-click="expand(article)"> {{article.title}}</h2>
+                        <span>Автор: {{article.author}}</span>
+                        <div>Дата: {{article.date}} {{article.time}}</div>
+                        <div>{{article.text}}</div>
 
-            <div class="row text-center" ng-repeat="article in articles" ng-controller="articleController">
+                        <div ng-repeat="paragraph in paragraphs">
 
-                <h2 ng-click="expand(article)"> {{article.title}}</h2>
-                <span>Автор: {{article.author}}</span>
-                <div>Дата: {{article.date}} {{article.time}}</div>
-                <div>{{article.text}}</div>
+                            <img ng-src="{{paragraph.imgsrc}}" ng-if=paragraph.imgsrc>
 
-                <div ng-repeat="paragraph in paragraphs">
-
-                    <img ng-src="{{paragraph.imgsrc}}" ng-if=paragraph.imgsrc>
-
-                    <p ng-class="{true: 'quote', false: 'text'}[paragraph.quote]">
-                        {{paragraph.text}}
-                    </p>
+                            <p ng-class="{true: 'quote', false: 'text'}[paragraph.quote]">
+                                {{paragraph.text}}
+                            </p>
+                        </div>
+                    </div>
                 </div>
-
             </div>
-
         </div>
     </div>
 
