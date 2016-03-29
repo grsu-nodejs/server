@@ -3,7 +3,8 @@
  */
 var request = require("request"),
     cheerio = require("cheerio"),
-    url = "http://s13.ru/";
+    url = "http://s13.ru/",
+    parser = require("./parser");
 
 function scrapDay(res, year, month, day) {
     var entries = [];
@@ -11,75 +12,39 @@ function scrapDay(res, year, month, day) {
 
     request(url, function (error, response, body) {
         if (error || response.statusCode == 503)
-            scrapDay(response, year, month, day);
+            scrapDay(res, year, month, day);
         else {
             var $ = cheerio.load(body);
 
-            loadDayEntries($, entries);
+            parser.parseForEntries($, entries);
         }
-        res.writeHead(200, {
-            "Content-Type": "application/json; charset=utf-8"
-        });
+
+        res.writeHead(200, {"Content-Type": "application/json; charset=utf-8"});
         res.write(JSON.stringify(entries));
         res.end("");
 
     });
 }
 
-function loadDayEntries($, entries) {
-    $(".entry").each(function () {
-        var data = $(this);
-        var title = data.find("a[rel=bookmark]").text();
-        var href = data.find("a[rel=bookmark]").attr('href');
-        var id = href.substring(href.lastIndexOf('/'));
-        var text = data.children().first().next().find("p").text();
-        var author = data.find("strong").text();
-        var meta = data.find("p").text();
-        var fulldate = meta.substring(meta.indexOf(author) + author.length + 2, meta.indexOf("Кейворды") - 1);
-        var time = fulldate.substring(fulldate.indexOf(',') + 2);
-        var date = fulldate.substring(0, fulldate.indexOf(','));
-
-        entries.push({
-            id: id,
-            author: author,
-            date: date,
-            time: time,
-            title: title,
-            text: text
-        });
-    });
-}
-
-function loadEntry(res, id) {
+function scrapArticle(res, id) {
+    var paragraphs = [];
     url = "http://s13.ru/archives/" + id;
 
     request(url, function (error, response, body) {
         if (error || response.statusCode == 503)
-            loadEntry(url, response);
+            scrapArticle(res, id);
         else {
             var $ = cheerio.load(body);
-            var paragraphs = [];
 
-            $(".itemtext p").each(function () {
-                var textblock = $(this).text();
-                var blockquote = $(this).parent()[0].name == "blockquote";
-                var imgsrc = $(this).find('img').attr('src');
-                paragraphs.push({
-                    quote: blockquote,
-                    text: textblock,
-                    imgsrc: imgsrc
-                });
-            });
+            parser.parseForParagraphs($, paragraphs);
         }
-        res.writeHead(200, {
-            "Content-Type": "application/json; charset=utf-8"
-        });
+        res.writeHead(200, {"Content-Type": "application/json; charset=utf-8"});
         res.write(JSON.stringify(paragraphs));
-
         res.end("");
 
     });
 }
 
-exports.loadEntry = loadEntry;
+
+exports.scrapArticle = scrapArticle;
 exports.scrapDay = scrapDay;

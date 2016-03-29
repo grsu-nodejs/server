@@ -1,9 +1,9 @@
-var parser = require("./parser");
+var trash = require("./trash");
 var scraper = require("./scraper");
-var resource = require("./resourceLoader");
+var parser = require("./parser");
 
 function allArticles(response) {
-    parser.getLoadedArticlesJSON(response);
+    trash.getLoadedArticlesJSON(response);
 }
 
 function scrapDayArticles(response, query) {
@@ -17,14 +17,9 @@ function scrapDayArticles(response, query) {
 function scrapArticle(response, query) {
     var id = query['id'];
 
-    scraper.loadEntry(response, id);
-}
-
-function index(response) {
-    resource.index(response);
+    scraper.scrapArticle(response, id);
 }
 
 exports.scrapArticle = scrapArticle;
 exports.allArticles = allArticles;
 exports.scrapDay = scrapDayArticles;
-exports.index = index;
