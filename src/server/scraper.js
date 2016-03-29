@@ -3,48 +3,30 @@
  */
 var request = require("request"),
     cheerio = require("cheerio"),
-    url = "http://s13.ru/",
-    parser = require("./parser");
+    url = "http://s13.ru/";
 
-function scrapDay(res, year, month, day) {
-    var entries = [];
-    url = "http://s13.ru/archives/date/" + year + "/" + month + "/" + day;
+function scrapWithParseMethod(res, parseMethod){
+
+    var content = [];
+    url = "http://s13.ru/archives/";
+    for (var i = 2; i < arguments.length; i++) {
+        url += arguments[i] + '/';
+    }
 
     request(url, function (error, response, body) {
         if (error || response.statusCode == 503)
-            scrapDay(res, year, month, day);
+            scrapDay(arguments);
         else {
             var $ = cheerio.load(body);
 
-            parser.parseForEntries($, entries);
+            parseMethod($, content);
         }
 
         res.writeHead(200, {"Content-Type": "application/json; charset=utf-8"});
-        res.write(JSON.stringify(entries));
+        res.write(JSON.stringify(content));
         res.end("");
 
     });
 }
 
-function scrapArticle(res, id) {
-    var paragraphs = [];
-    url = "http://s13.ru/archives/" + id;
-
-    request(url, function (error, response, body) {
-        if (error || response.statusCode == 503)
-            scrapArticle(res, id);
-        else {
-            var $ = cheerio.load(body);
-
-            parser.parseForParagraphs($, paragraphs);
-        }
-        res.writeHead(200, {"Content-Type": "application/json; charset=utf-8"});
-        res.write(JSON.stringify(paragraphs));
-        res.end("");
-
-    });
-}
-
-
-exports.scrapArticle = scrapArticle;
-exports.scrapDay = scrapDay;
+exports.scrapWithParseMethod = scrapWithParseMethod;
