@@ -4,6 +4,8 @@
 var fs = require('fs');
 
 function loadResource(pathName, response) {
+    if (pathName == "/")
+        pathName = "/index.html";
     var url = "./src/ui" + pathName;
 
     fs.readFile(url, function (err, file) {
@@ -23,15 +25,4 @@ function loadResource(pathName, response) {
     });
 }
 
-function index(res) {
-    fs.readFile('./src/ui/index.html', function (err, html) {
-        res.writeHeader(200, {
-            "Content-Type": "text/html"
-        });
-        res.write(html);
-        res.end();
-    });
-}
-
 exports.loadResource = loadResource;
-exports.index = index;
