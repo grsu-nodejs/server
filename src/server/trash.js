@@ -1,6 +1,6 @@
 var request = require("request"),
     cheerio = require("cheerio"),
-    parser = require("./parser"),
+    parser = require("./trash"),
     url = "http://s13.ru/";
 
 var articles = [];
