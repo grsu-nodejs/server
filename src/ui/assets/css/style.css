@@ -45,6 +45,20 @@ img {
 }
 
 .panel-heading:hover {
-    text-decoration: underline;
+    text-decoration:  underline;
     cursor: pointer;
+}
+.btn-bottom-right {
+    height: 20px;
+    margin-top: -21px;
+    margin-right: 1px;
+    line-height: 5px;
+}
+
+button > a {
+    color: white;
+}
+button > a:hover{
+    text-decoration: none;
+    color: cornflowerblue;
 }
