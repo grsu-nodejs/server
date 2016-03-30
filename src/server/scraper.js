@@ -15,7 +15,7 @@ function scrapWithParseMethod(res, parseMethod){
 
     request(url, function (error, response, body) {
         if (error || response.statusCode == 503)
-            scrapDay(arguments);
+            scrapWithParseMethod(arguments);
         else {
             var $ = cheerio.load(body);
 

@@ -1,6 +1,6 @@
 'use strict';
 
-var articlesModule = angular.module('articlesModule', ['ui.bootstrap']);
+var articlesModule = angular.module('articlesModule', ['ngAnimate', 'ui.bootstrap']);
 
 
 
@@ -44,9 +44,10 @@ articlesModule.controller('articlesforDay', function ($scope, $http) {
 });
 
 articlesModule.controller('articleController', function ($scope, $http) {
-    $scope.expand = function (item) {
 
-        item.text = null;
+    $scope.isCollapsed = true;
+
+    $scope.expand = function (item) {
 
         var queryString = createQueryStringForArticle(item.id);
 
@@ -56,6 +57,10 @@ articlesModule.controller('articleController', function ($scope, $http) {
         }).then(function (response) {
 
             $scope.paragraphs = response.data;
+
+            $scope.isCollapsed = !$scope.isCollapsed;
+
+
         });
 
     };

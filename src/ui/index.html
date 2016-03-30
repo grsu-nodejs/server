@@ -14,63 +14,62 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-animate.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.2.5.js"></script>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    <link href='assets/css/style.css' rel='stylesheet' type='text/css'/>
+    <link href='assets/css/style.css' rel='stylesheet' type='text/css' />
 
     <title>Title</title>
 </head>
 
 <body>
 
-<div ng-controller="articlesforDay">
+    <div ng-controller="articlesforDay">
 
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Magic</a>
-            </div>
-            <div class="nav navbar-nav col-md-2 pull-right p-a-10">
-                <div class="input-group">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Magic</a>
+                </div>
+                <div class="nav navbar-nav col-md-2 pull-right p-a-10">
+                    <div class="input-group">
 
-                    <input ng-change="articlesForDay()" type="text" class="form-control"
-                           uib-datepicker-popup="{{format}}" ng-model="date" is-open="popup.opened"
-                           datepicker-options="dateOptions" ng-required="true" close-text="Close"
-                           alt-input-formats="altInputFormats"/>
+                        <input ng-change="articlesForDay()" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="date" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
 
-                    <span class="input-group-btn">
+                        <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="open()">
                             <i class="glyphicon glyphicon-calendar"></i>
                         </button>
                     </span>
 
+                    </div>
                 </div>
             </div>
-        </div>
 
-    </nav>
+        </nav>
 
-    <div class="page-header">
-        <div ng-repeat="article in articles" ng-controller="articleController">
-            <div class="row">
-                <div class="center-block col-md-6" style="float: none;">
+        <div class="page-header">
+            <div ng-repeat="article in articles" ng-controller="articleController">
+                <div class="row">
+                    <div class="center-block col-md-6" style="float: none;">
 
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h2 ng-click="expand(article)"> {{article.title}}</h2>
-                        </div>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h2 ng-click="expand(article)"> {{article.title}}</h2>
+                            </div>
 
-                        <div class="panel-body">
+                            <div class="panel-body">
 
-                            <span>Автор: {{article.author}}</span>
-                            <div>Дата: {{article.date}} {{article.time}}</div>
-                            <div>{{article.text}}</div>
+                                <span>Автор: {{article.author}}</span>
+                                <div>Дата: {{article.date}} {{article.time}}</div>
+                                <div class="text-justify text" ng-show="isCollapsed">{{article.text}}</div>
+                                <div uib-collapse="isCollapsed">
+                                    <div ng-repeat="paragraph in paragraphs">
 
-                            <div ng-repeat="paragraph in paragraphs">
+                                        <img class="pull-right p-a-10" ng-src="{{paragraph.imgsrc}}" ng-if=paragraph.imgsrc>
 
-                                <img class="pull-right p-a-10" ng-src="{{paragraph.imgsrc}}" ng-if=paragraph.imgsrc>
-
-                                <div class="text-justify" ng-class="{true: 'quote', false: 'text'}[paragraph.quote]">
-                                    {{paragraph.text}}
+                                        <div class="text-justify" ng-class="{true: 'quote', false: 'text'}[paragraph.quote]">
+                                            {{paragraph.text}}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +78,6 @@
             </div>
         </div>
     </div>
-</div>
 
 
 </body>

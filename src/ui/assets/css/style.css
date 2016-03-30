@@ -26,6 +26,7 @@ ul {
     padding: 0.5em 10px;
     quotes: "\201C""\201D""\2018""\2019";
 }
+
 .quote:before {
     color: #ccc;
     content: open-quote;
@@ -38,6 +39,12 @@ ul {
 .p-a-10 {
     padding: 10px;
 }
+
 img {
     width: 62%;
+}
+
+.panel-heading:hover {
+    text-decoration:  underline;
+    cursor: pointer;
 }
