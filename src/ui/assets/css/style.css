@@ -45,6 +45,6 @@ img {
 }
 
 .panel-heading:hover {
-    text-decoration:  underline;
+    text-decoration: underline;
     cursor: pointer;
 }

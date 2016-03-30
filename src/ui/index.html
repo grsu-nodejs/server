@@ -60,7 +60,9 @@
 
                                 <span>Автор: {{article.author}}</span>
                                 <div>Дата: {{article.date}} {{article.time}}</div>
-                                <div class="text-justify text" ng-show="isCollapsed">{{article.text}}</div>
+                                <div ng-show="isCollapsed">
+                                    <div class="text-justify text">{{article.text}}</div>
+                                </div>
                                 <div uib-collapse="isCollapsed">
                                     <div ng-repeat="paragraph in paragraphs" ng-show="!$first || !isCollapsed">
 
@@ -71,7 +73,11 @@
                                         </div>
                                     </div>
 
-                                    <button type="button" class="btn btn-info">Allah</button>
+                                    <button ng-click="expand(article)" type="button" class="btn btn-primary">Свернуть</button>
+                                </div>
+
+                                <div ng-show="isCollapsed">
+                                    <button ng-click="expand(article)" type="button" class="btn btn-primary">Развернуть</button>
                                 </div>
                             </div>
                         </div>
