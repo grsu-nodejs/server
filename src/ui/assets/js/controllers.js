@@ -33,9 +33,14 @@ articlesModule.controller('articlesforDay', function ($scope, $http) {
             method: 'GET',
             url: queryString
         }).then(function (response) {
+
             $scope.articles = response.data;
+
+            $scope.isCollapsed = !$scope.isCollapsed;
         });
+
     };
+
 
     $scope.date = new Date();
 
@@ -50,19 +55,21 @@ articlesModule.controller('articleController', function ($scope, $http) {
     $scope.expand = function (item) {
 
         var queryString = createQueryStringForArticle(item.id);
+        if (!$scope.paragraphs) {
+            $http({
+                method: 'GET',
+                url: queryString
+            }).then(function (response) {
 
-        $http({
-            method: 'GET',
-            url: queryString
-        }).then(function (response) {
+                $scope.paragraphs = response.data;
 
-            $scope.paragraphs = response.data;
+                $scope.isCollapsed = !$scope.isCollapsed;
 
+
+            });
+        } else {
             $scope.isCollapsed = !$scope.isCollapsed;
-
-
-        });
-
+        }
     };
 });
 

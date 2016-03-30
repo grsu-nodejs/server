@@ -62,7 +62,7 @@
                                 <div>Дата: {{article.date}} {{article.time}}</div>
                                 <div class="text-justify text" ng-show="isCollapsed">{{article.text}}</div>
                                 <div uib-collapse="isCollapsed">
-                                    <div ng-repeat="paragraph in paragraphs">
+                                    <div ng-repeat="paragraph in paragraphs" ng-show="!$first || !isCollapsed">
 
                                         <img class="pull-right p-a-10" ng-src="{{paragraph.imgsrc}}" ng-if=paragraph.imgsrc>
 
@@ -70,6 +70,8 @@
                                             {{paragraph.text}}
                                         </div>
                                     </div>
+
+                                    <button type="button" class="btn btn-info">Allah</button>
                                 </div>
                             </div>
                         </div>
