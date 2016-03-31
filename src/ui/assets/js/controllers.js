@@ -1,10 +1,29 @@
 'use strict';
 
-var articlesModule = angular.module('articlesModule', []);
+var articlesModule = angular.module('articlesModule', ['ngAnimate', 'ui.bootstrap']);
 
 
 
 articlesModule.controller('articlesforDay', function ($scope, $http) {
+
+    $scope.today = function () {
+        $scope.date = new Date();
+    };
+    $scope.today();
+
+    $scope.open = function () {
+        $scope.popup.opened = true;
+    };
+
+
+    $scope.format = 'dd.MM.yyyy';
+
+    $scope.popup = {
+        opened: false
+    };
+
+
+
 
     $scope.articlesForDay = function () {
 
@@ -14,9 +33,14 @@ articlesModule.controller('articlesforDay', function ($scope, $http) {
             method: 'GET',
             url: queryString
         }).then(function (response) {
+
             $scope.articles = response.data;
+
+            $scope.isCollapsed = !$scope.isCollapsed;
         });
+
     };
+
 
     $scope.date = new Date();
 
@@ -24,21 +48,28 @@ articlesModule.controller('articlesforDay', function ($scope, $http) {
 
 });
 
-articlesModule.controller('articleController', function ($scope, $http){
+articlesModule.controller('articleController', function ($scope, $http) {
+
+    $scope.isCollapsed = true;
+
     $scope.expand = function (item) {
 
-        item.text=null;
-
         var queryString = createQueryStringForArticle(item.id);
+        if (!$scope.paragraphs) {
+            $http({
+                method: 'GET',
+                url: queryString
+            }).then(function (response) {
 
-        $http({
-            method: 'GET',
-            url: queryString
-        }).then(function (response) {
+                $scope.paragraphs = response.data;
 
-            $scope.paragraphs = response.data;
-        });
+                $scope.isCollapsed = !$scope.isCollapsed;
 
+
+            });
+        } else {
+            $scope.isCollapsed = !$scope.isCollapsed;
+        }
     };
 });
 
