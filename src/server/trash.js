@@ -1,66 +1,67 @@
-var request = require("request"),
-    cheerio = require("cheerio"),
-    parser = require("./trash"),
-    url = "http://s13.ru/";
+var request = require('request');
+var cheerio = require('cheerio');
+var url = 'http://s13.ru/';
 
 var articles = [];
 
 function getLoadedArticlesJSON(response) {
 
     response.writeHead(200, {
-        "Content-Type": "application/json; charset=utf-8"
+        'Content-Type': 'application/json; charset=utf-8'
     });
     response.write(JSON.stringify(articles));
 
-    response.end("");
+    response.end('');
 }
 
 function loadAllArticles() {
     request(url, function (error, response, body) {
 
-        if (error || response.statusCode === 503)
+        if (error || response.statusCode === 503) {
             loadAllArticles();
-        else
-            loadDataBySelectorWithMethod(body, "head > link[rel=archives]", loadArticlesPerMonth);
+        } else {
+            loadDataBySelectorWithMethod(body, 'head > link[rel=archives]', loadArticlesPerMonth);
+        }
     });
 }
 
 function loadArticlesPerMonth(link) {
     request(link, function (error, response, body) {
 
-        if (error || response.statusCode === 503)
+        if (error || response.statusCode === 503) {
             loadArticlesPerMonth(link);
-        else
-            loadDataBySelectorWithMethod(body, "#wp-calendar > tbody a", loadArticlesPerDay);
+        } else {
+            loadDataBySelectorWithMethod(body, '#wp-calendar > tbody a', loadArticlesPerDay);
+        }
     });
 }
 
 function loadArticlesPerDay(link) {
     request(link, function (error, response, body) {
 
-        if (error || response.statusCode === 503)
+        if (error || response.statusCode === 503) {
             loadArticlesPerDay(link);
-        else
-            loadDataBySelectorWithMethod(body, ".itemhead a[rel=bookmark]", loadArticle);
+        } else {
+            loadDataBySelectorWithMethod(body, '.itemhead a[rel=bookmark]', loadArticle);
+        }
     });
 }
 
 function loadArticle(link) {
     request(link, function (error, response, body) {
         if (error || response.statusCode === 503) {
-            loadArticle(link)
-        }
-        else {
+            loadArticle(link);
+        } else {
             var $ = cheerio.load(body);
-            var str = "";
-            $(".itemtext p").each(function () {
+            var str = '';
+            $('.itemtext p').each(function () {
                 str += $(this).text();
             });
 
-            var title = $(".itemhead a[rel=bookmark]").text();
-            var author = $(".metadata strong").text();
-            var meta = $(".itemhead > p").text();
-            var date = meta.substring(meta.indexOf(author) + author.length + 2, meta.indexOf("Кейворды") - 1);
+            var title = $('.itemhead a[rel=bookmark]').text();
+            var author = $('.metadata strong').text();
+            var meta = $('.itemhead > p').text();
+            var date = meta.substring(meta.indexOf(author) + author.length + 2, meta.indexOf('Кейворды') - 1);
 
             articles.push({
                 href: link,
@@ -72,7 +73,6 @@ function loadArticle(link) {
         }
     });
 }
-
 
 function loadDataBySelectorWithMethod(body, selector, withMethod) {
     var links = [];

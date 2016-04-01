@@ -1,6 +1,7 @@
-var http = require("http"),
-    urlModule = require("url"),
-    url = "http://s13.ru/";
+var http = require('http');
+var urlModule = require('url');
+var url = 'http://s13.ru/';
+var config = require('../../config');
 
 function start(route, handlers) {
 
@@ -12,7 +13,7 @@ function start(route, handlers) {
         route(handlers, pathname, response, query);
     }
 
-    http.createServer(onRequest).listen(8080);
+    http.createServer(onRequest).listen(config.get('port'));
 }
 
 exports.start = start;

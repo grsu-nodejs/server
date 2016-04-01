@@ -1,30 +1,30 @@
 /**
  * Created by andrew on 3/25/2016.
  */
-var request = require("request"),
-    cheerio = require("cheerio"),
-    url = "http://s13.ru/";
+var request = require('request');
+var cheerio = require('cheerio');
+var url = 'http://s13.ru/';
 
-function scrapWithParseMethod(res, parseMethod){
+function scrapWithParseMethod(res, parseMethod) {
 
     var content = [];
-    url = "http://s13.ru/archives/";
+    url = 'http://s13.ru/archives/';
     for (var i = 2; i < arguments.length; i++) {
         url += arguments[i] + '/';
     }
 
     request(url, function (error, response, body) {
-        if (error || response.statusCode == 503)
+        if (error || response.statusCode == 503) {
             scrapWithParseMethod(arguments);
-        else {
+        } else {
             var $ = cheerio.load(body);
 
             parseMethod($, content);
         }
 
-        res.writeHead(200, {"Content-Type": "application/json; charset=utf-8"});
+        res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
         res.write(JSON.stringify(content));
-        res.end("");
+        res.end('');
 
     });
 }
