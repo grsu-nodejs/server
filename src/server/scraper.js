@@ -8,6 +8,7 @@ function scrapWithParseMethod(res, responseMethod, parseMethod) {
 
     var content = [];
     var http = 'http://s13.ru/archives/';
+    var potentialId = arguments[arguments.length - 1];
     for (var i = 3; i < arguments.length; i++) {
         http += arguments[i] + '/';
     }
@@ -20,7 +21,7 @@ function scrapWithParseMethod(res, responseMethod, parseMethod) {
 
             parseMethod($, content);
         }
-        responseMethod(res, content);
+        responseMethod(res, content, potentialId);
     });
 }
 

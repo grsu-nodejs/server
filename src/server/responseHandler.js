@@ -1,8 +1,12 @@
 /**
  * Created by andrew on 4/6/2016.
  */
+var scraper = require('./scraper');
+var parser = require('./parser');
+
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
+var table = 'articles';
 var url = 'mongodb://localhost:27017/s13';
 
 function jsonResponse(res, content) {
@@ -16,30 +20,60 @@ function jsonResponse(res, content) {
 function saveAndReturnArticle(res, content) {
     jsonResponse(res, content);
 
-    insertWithMethod(content, insertArticles);
+    mongoConnectWithMethod(insertArticles, content);
 }
 
-function saveAndReturnParagraphs(res, content) {
+function saveAndReturnParagraphs(res, content, articleId) {
     jsonResponse(res, content);
 
-    insertWithMethod(content, insertParagraphs);
+    mongoConnectWithMethod(insertParagraphs, content, articleId);
 }
 
-function insertWithMethod(content, insertMethod) {
+function mongoConnectWithMethod(dbMethod, content, id, callback) {
     MongoClient.connect(url, function (err, db) {
-        insertMethod(content, db);
-        db.close();
+        dbMethod(db, content, function (content) {
+            db.close();
+            if (callback) {
+                callback(content);
+            }
+        }, id);
     });
 }
 
-function insertArticles(articles, db) {
-    db.collection('articles').insertMany(articles);
+function insertArticles(db, articles, callback) {
+    db.collection(table).insertMany(articles);
+    callback();
 }
 
-function insertParagraphs(articles, db) {
-    db.collection('paragraphs').insertMany(articles);
+function insertParagraphs(db, paragraphs, callback, articleId) {
+    db.collection(table).updateOne({_id: articleId}, {$set: {paragraphs: paragraphs}});
+    callback();
 }
 
-exports.saveAndReturnParagraphs = saveAndReturnParagraphs;
+function returnArticles(response, year, month, day) {
+    //TODO articles by date
+    scraper.scrapWithParseMethod(response, saveAndReturnArticle, parser.parseForEntries, 'date', year, month, day);
+}
 
-exports.saveAndReturnArticle = saveAndReturnArticle;
+function findParagraphs(db, paragraphs, callback, articleId) {
+    db.collection('articles').find({_id: articleId}, {paragraphs: 1}).limit(1).next(function (err, doc) {
+        paragraphs = doc.paragraphs;
+        callback(paragraphs);
+    });
+}
+
+function returnParagraphs(response, id, content) {
+    mongoConnectWithMethod(findParagraphs, content, id, function (content) {
+        if (content) {
+            console.log("fromBase");
+            jsonResponse(response, content);
+        } else {
+            console.log("no in base");
+            scraper.scrapWithParseMethod(response, saveAndReturnParagraphs, parser.parseForParagraphs, id);
+        }
+    });
+}
+
+exports.returnParagraphs = returnParagraphs;
+
+exports.returnArticles = returnArticles;

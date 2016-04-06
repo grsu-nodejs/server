@@ -1,5 +1,3 @@
-var scraper = require('./scraper');
-var parser = require('./parser');
 var responseHandler = require('./responseHandler');
 
 function scrapDayArticles(response, query) {
@@ -7,14 +5,13 @@ function scrapDayArticles(response, query) {
     var month = query.month;
     var day = query.day;
 
-    scraper.scrapWithParseMethod(response, responseHandler.saveAndReturnArticle,
-        parser.parseForEntries, 'date', year, month, day);
+    responseHandler.returnArticles(response, year, month, day);
 }
 
 function scrapArticle(response, query) {
     var id = query.id;
 
-    scraper.scrapWithParseMethod(response, responseHandler.saveAndReturnParagraphs, parser.parseForParagraphs, id);
+    responseHandler.returnParagraphs(response, id);
 }
 
 exports.scrapArticle = scrapArticle;
