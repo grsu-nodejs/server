@@ -47,7 +47,7 @@ articlesModule.controller('articleController', function ($scope, $http) {
 
     $scope.expand = function (item) {
 
-        var queryString = createQueryStringForArticle(item.id);
+        var queryString = createQueryStringForArticle(item._id);
         if (!$scope.paragraphs) {
             $http({
                 method: 'GET',

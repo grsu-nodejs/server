@@ -36,3 +36,4 @@ jspm_packages
 # Ant Working Directory
 .sonar/
 .idea/
+database/

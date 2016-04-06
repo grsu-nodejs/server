@@ -5,7 +5,6 @@ var requestHandlers = require('./server/requestHandlers');
 var handlers = {
     '/allArticles': requestHandlers.allArticles,
     '/day': requestHandlers.scrapDay,
-    '/article': requestHandlers.scrapArticle,
-    '/': requestHandlers.index
+    '/article': requestHandlers.scrapArticle
 };
 server.start(router.route, handlers);

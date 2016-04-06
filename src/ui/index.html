@@ -59,7 +59,7 @@
                             <h2 ng-click="expand(article)"> {{article.title}}</h2>
                         </div>
 
-                        <div class="panel-body" id="{{article.id}}">
+                        <div class="panel-body">
 
                             <span>Автор: {{article.author}}</span>
                             <div>Дата: {{article.date}} {{article.time}}</div>
@@ -78,7 +78,7 @@
                         </div>
                         <button ng-click="expand(article)" type="button"
                                 class="btn btn-primary pull-right btn-bottom-right">
-                            <a href="#{{article.id}}">
+                            <a>
                                 {{{true: 'Развернуть', false: 'Свернуть'}[isCollapsed]}}
                             </a>
                         </button>
