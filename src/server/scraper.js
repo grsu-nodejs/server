@@ -3,16 +3,17 @@
  */
 var request = require('request');
 var cheerio = require('cheerio');
+var url = 'http://s13.ru/';
 
-function scrapWithParseMethod(res, responseMethod, parseMethod) {
+function scrapWithParseMethod(res, parseMethod) {
 
     var content = [];
-    var http = 'http://s13.ru/archives/';
-    for (var i = 3; i < arguments.length; i++) {
-        http += arguments[i] + '/';
+    url = 'http://s13.ru/archives/';
+    for (var i = 2; i < arguments.length; i++) {
+        url += arguments[i] + '/';
     }
 
-    request(http, function (error, response, body) {
+    request(url, function (error, response, body) {
         if (error || response.statusCode == 503) {
             scrapWithParseMethod(arguments);
         } else {
@@ -20,7 +21,11 @@ function scrapWithParseMethod(res, responseMethod, parseMethod) {
 
             parseMethod($, content);
         }
-        responseMethod(res, content);
+
+        res.writeHead(200, {'Content-Type': 'application/json; charset=utf-8'});
+        res.write(JSON.stringify(content));
+        res.end('');
+
     });
 }
 

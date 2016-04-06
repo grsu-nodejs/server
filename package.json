@@ -16,8 +16,7 @@
   "dependencies": {
     "request": "*",
     "cheerio": "*",
-    "nconf": "latest",
-    "mongodb": "latest"
+    "nconf": "latest"
   },
   "devDependencies": {
     "eslint-config-standard": "^5.1.0",

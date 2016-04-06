@@ -29,7 +29,7 @@ function getEntries($, entries) {
         var date = fullDate.substring(0, fullDate.indexOf(','));
 
         entries.push({
-            _id: id,
+            id: id,
             author: author,
             date: date,
             time: time,
