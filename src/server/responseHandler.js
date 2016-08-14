@@ -33,8 +33,10 @@ function saveAndReturnParagraphs(res, content, articleId) {
 
 function mongoConnectWithMethod(dbMethod, content, id, callback) {
     MongoClient.connect(url, function(err, db) {
-        dbMethod(db, content, function(content) {
-            db.close();
+        dbMethod(db, content, function(content, isDatabaseAvailable) {
+            if (isDatabaseAvailable) {
+                db.close();
+            }
             if (callback) {
                 callback(content);
             }
@@ -43,19 +45,23 @@ function mongoConnectWithMethod(dbMethod, content, id, callback) {
 }
 
 function insertArticles(db, articles, callback) {
-    db.collection(table).insertMany(articles);
-    callback();
+    if (db) {
+        db.collection(table).insertMany(articles);
+        callback();
+    }
 }
 
 function insertParagraphs(db, paragraphs, callback, articleId) {
-    db.collection(table).updateOne({
-        _id: articleId
-    }, {
-        $set: {
-            paragraphs: paragraphs
-        }
-    });
-    callback();
+    if (db) {
+        db.collection(table).updateOne({
+            _id: articleId
+        }, {
+            $set: {
+                paragraphs: paragraphs
+            }
+        });
+        callback();
+    }
 }
 
 function returnArticles(response, year, month, day, content) {
@@ -73,30 +79,6 @@ function returnArticles(response, year, month, day, content) {
 
 }
 
-function findParagraphs(db, paragraphs, callback, articleId) {
-    db.collection('articles').find({
-        _id: articleId
-    }, {
-        paragraphs: 1
-    }).limit(1).next(function(err, doc) {
-        paragraphs = doc.paragraphs;
-        callback(paragraphs);
-    });
-}
-
-function findArticles(db, articles, callback, date) {
-
-    db.collection('articles').find({
-        date: date
-    }).toArray(function(err, doc) {
-        if (doc.length > 0) {
-            articles = doc;
-        }
-        callback(articles);
-
-    });
-}
-
 function returnParagraphs(response, id, content) {
     mongoConnectWithMethod(findParagraphs, content, id, function(content) {
         if (content) {
@@ -107,6 +89,36 @@ function returnParagraphs(response, id, content) {
             fetcher.fetchWithParseMethod(response, saveAndReturnParagraphs, parser.parseForParagraphs, id);
         }
     });
+}
+
+function findParagraphs(db, paragraphs, callback, articleId) {
+    try {
+        db.collection('articles').find({
+            _id: articleId
+        }, {
+            paragraphs: 1
+        }).limit(1).next(function(err, doc) {
+            paragraphs = doc.paragraphs;
+            callback(paragraphs, true);
+        });
+    } catch (error) {
+        callback(paragraphs, false);
+    }
+}
+
+function findArticles(db, articles, callback, date) {
+    try {
+        db.collection('articles').find({
+            date: date
+        }).toArray(function(err, doc) {
+            if (doc.length > 0) {
+                articles = doc;
+            }
+            callback(articles, true);
+        });
+    } catch (error) {
+        callback(articles, false);
+    };
 }
 
 exports.returnParagraphs = returnParagraphs;
