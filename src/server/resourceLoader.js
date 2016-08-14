@@ -1,6 +1,3 @@
-/**
- * Created by andrew on 3/26/2016.
- */
 var fs = require('fs');
 
 function loadResource(pathName, response) {
@@ -9,7 +6,7 @@ function loadResource(pathName, response) {
     }
     var url = './src/ui' + pathName;
 
-    fs.readFile(url, function (err, file) {
+    fs.readFile(url, function(err, file) {
         if (!err) {
             response.writeHeader(200, {
                 'Content-Type': 'text/' + pathName.substring(pathName.lastIndexOf('.') + 1)

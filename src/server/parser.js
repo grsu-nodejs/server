@@ -1,9 +1,5 @@
-/**
- * Created by andrew on 3/30/2016.
- */
-
 function getArticle($, paragraphs) {
-    $('.itemtext p').each(function () {
+    $('.itemtext p').each(function() {
         var textblock = $(this).text();
         var blockquote = $(this).parent()[0].name == 'blockquote';
         var imgsrc = $(this).find('img').attr('src');
@@ -16,7 +12,7 @@ function getArticle($, paragraphs) {
 }
 
 function getEntries($, entries) {
-    $('.entry').each(function () {
+    $('.entry').each(function() {
         var data = $(this);
         var title = data.find('a[rel=bookmark]').text();
         var href = data.find('a[rel=bookmark]').attr('href');
