@@ -1,4 +1,4 @@
-var resource = require("./resourceLoader");
+var resource = require('./resourceLoader');
 
 function route(handlers, pathName, response, query) {
 

@@ -2,9 +2,7 @@
 
 var articlesModule = angular.module('articlesModule', ['ngAnimate', 'ui.bootstrap']);
 
-
-
-articlesModule.controller('articlesforDay', function ($scope, $http) {
+articlesModule.controller('articlesForDay', function ($scope, $http) {
 
     $scope.today = function () {
         $scope.date = new Date();
@@ -15,15 +13,11 @@ articlesModule.controller('articlesforDay', function ($scope, $http) {
         $scope.popup.opened = true;
     };
 
-
     $scope.format = 'dd.MM.yyyy';
 
     $scope.popup = {
         opened: false
     };
-
-
-
 
     $scope.articlesForDay = function () {
 
@@ -41,7 +35,6 @@ articlesModule.controller('articlesforDay', function ($scope, $http) {
 
     };
 
-
     $scope.date = new Date();
 
     $scope.articlesForDay($scope.date);
@@ -54,7 +47,7 @@ articlesModule.controller('articleController', function ($scope, $http) {
 
     $scope.expand = function (item) {
 
-        var queryString = createQueryStringForArticle(item.id);
+        var queryString = createQueryStringForArticle(item._id);
         if (!$scope.paragraphs) {
             $http({
                 method: 'GET',
@@ -65,7 +58,6 @@ articlesModule.controller('articleController', function ($scope, $http) {
 
                 $scope.isCollapsed = !$scope.isCollapsed;
 
-
             });
         } else {
             $scope.isCollapsed = !$scope.isCollapsed;
@@ -75,18 +67,21 @@ articlesModule.controller('articleController', function ($scope, $http) {
 
 function convertForQuery(name, value) {
 
-    return name + "=" + value + "&";
+    return name + '=' + value + '&';
 
 }
 
 function createQueryStringForDay(date) {
 
-    return "/day?" + convertForQuery('year', date.getFullYear()) + convertForQuery('month', date.getMonth() + 1) + convertForQuery('day', date.getDate());
+    return '/day?' +
+        convertForQuery('year', date.getFullYear()) +
+        convertForQuery('month', date.getMonth() + 1) +
+        convertForQuery('day', date.getDate());
 
 }
 
 function createQueryStringForArticle(id) {
 
-    return "/article?" + convertForQuery('id', id);
+    return '/article?' + convertForQuery('id', id);
 
 }
