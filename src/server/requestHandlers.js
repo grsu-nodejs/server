@@ -1,6 +1,6 @@
 var responseHandler = require('./responseHandler');
 
-function scrapDayArticles(response, query) {
+function fetchDayArticles(response, query) {
     var year = query.year;
     var month = query.month;
     var day = query.day;
@@ -8,12 +8,12 @@ function scrapDayArticles(response, query) {
     responseHandler.returnArticles(response, year, month, day);
 }
 
-function scrapArticle(response, query) {
+function fetchArticle(response, query) {
     var id = query.id;
 
     responseHandler.returnParagraphs(response, id);
 }
 
-exports.scrapArticle = scrapArticle;
+exports.fetchArticle = fetchArticle;
 
-exports.scrapDay = scrapDayArticles;
+exports.fetchDay = fetchDayArticles;

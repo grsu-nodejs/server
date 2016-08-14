@@ -1,4 +1,4 @@
-var scraper = require('./scraper');
+var fetcher = require('./fetcher');
 var parser = require('./parser');
 
 var MongoClient = require('mongodb').MongoClient;
@@ -67,7 +67,7 @@ function returnArticles(response, year, month, day, content) {
             jsonResponse(response, content);
         } else {
             console.log("no in base");
-            scraper.scrapWithParseMethod(response, saveAndReturnArticle, parser.parseForEntries, 'date', year, month, day);
+            fetcher.fetchWithParseMethod(response, saveAndReturnArticle, parser.parseForEntries, 'date', year, month, day);
         }
     });
 
@@ -104,7 +104,7 @@ function returnParagraphs(response, id, content) {
             jsonResponse(response, content);
         } else {
             console.log("no in base");
-            scraper.scrapWithParseMethod(response, saveAndReturnParagraphs, parser.parseForParagraphs, id);
+            fetcher.fetchWithParseMethod(response, saveAndReturnParagraphs, parser.parseForParagraphs, id);
         }
     });
 }

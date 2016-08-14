@@ -4,7 +4,8 @@ var requestHandlers = require('./server/requestHandlers');
 
 var handlers = {
     '/allArticles': requestHandlers.allArticles,
-    '/day': requestHandlers.scrapDay,
-    '/article': requestHandlers.scrapArticle
+    '/day': requestHandlers.fetchDay,
+    '/article': requestHandlers.fetchArticle
 };
+
 server.start(router.route, handlers);

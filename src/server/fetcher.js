@@ -1,7 +1,7 @@
 var request = require('request');
 var cheerio = require('cheerio');
 
-function scrapWithParseMethod(res, responseMethod, parseMethod) {
+function fetchWithParseMethod(res, responseMethod, parseMethod) {
 
     var content = [];
     var http = 'http://s13.ru/archives/';
@@ -12,7 +12,7 @@ function scrapWithParseMethod(res, responseMethod, parseMethod) {
 
     request(http, function(error, response, body) {
         if (error || response.statusCode == 503) {
-            scrapWithParseMethod(arguments);
+            fetchWithParseMethod(arguments);
         } else {
             var $ = cheerio.load(body);
 
@@ -22,4 +22,4 @@ function scrapWithParseMethod(res, responseMethod, parseMethod) {
     });
 }
 
-exports.scrapWithParseMethod = scrapWithParseMethod;
+exports.fetchWithParseMethod = fetchWithParseMethod;
