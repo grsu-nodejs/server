@@ -8,8 +8,7 @@
     "start": "node src/webapp.js",
     "debug": "node-debug src/webapp.js",
     "jscs": "jscs src/*.js src/server/*.js test/*.js",
-    "dev": "webpack -d --watch",
-    "build": "webpack -p"
+    "build": "webpack"
   },
   "license": "ISC",
   "repository": {
