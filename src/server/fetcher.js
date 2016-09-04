@@ -10,7 +10,7 @@ function fetchWithParseMethod(res, responseMethod, parseMethod) {
         http += arguments[i] + '/';
     }
 
-    request(http, function(error, response, body) {
+    request(http, function (error, response, body) {
         if (error || response.statusCode == 503) {
             fetchWithParseMethod(arguments);
         } else {

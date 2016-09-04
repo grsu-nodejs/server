@@ -6,7 +6,7 @@ function loadResource(pathName, response) {
     }
     var url = './src/client' + pathName;
 
-    fs.readFile(url, function(err, file) {
+    fs.readFile(url, function (err, file) {
         if (!err) {
             response.writeHeader(200, {
                 'Content-Type': 'text/' + pathName.substring(pathName.lastIndexOf('.') + 1)

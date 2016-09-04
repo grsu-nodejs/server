@@ -32,8 +32,8 @@ function saveAndReturnParagraphs(res, content, articleId) {
 }
 
 function mongoConnectWithMethod(dbMethod, content, id, callback) {
-    MongoClient.connect(url, function(err, db) {
-        dbMethod(db, content, function(content, isDatabaseAvailable) {
+    MongoClient.connect(url, function (err, db) {
+        dbMethod(db, content, function (content, isDatabaseAvailable) {
             if (isDatabaseAvailable) {
                 db.close();
             }
@@ -67,7 +67,7 @@ function insertParagraphs(db, paragraphs, callback, articleId) {
 function returnArticles(response, year, month, day, content) {
     var date = day + ' ' + monthsNames[month - 1] + ' ' + year + ' года';
 
-    mongoConnectWithMethod(findArticles, content, date, function(content) {
+    mongoConnectWithMethod(findArticles, content, date, function (content) {
         if (content) {
             console.log("fromBase");
             jsonResponse(response, content);
@@ -80,7 +80,7 @@ function returnArticles(response, year, month, day, content) {
 }
 
 function returnParagraphs(response, id, content) {
-    mongoConnectWithMethod(findParagraphs, content, id, function(content) {
+    mongoConnectWithMethod(findParagraphs, content, id, function (content) {
         if (content) {
             console.log("fromBase");
             jsonResponse(response, content);
@@ -97,7 +97,7 @@ function findParagraphs(db, paragraphs, callback, articleId) {
             _id: articleId
         }, {
             paragraphs: 1
-        }).limit(1).next(function(err, doc) {
+        }).limit(1).next(function (err, doc) {
             paragraphs = doc.paragraphs;
             callback(paragraphs, true);
         });
@@ -110,7 +110,7 @@ function findArticles(db, articles, callback, date) {
     try {
         db.collection('articles').find({
             date: date
-        }).toArray(function(err, doc) {
+        }).toArray(function (err, doc) {
             if (doc.length > 0) {
                 articles = doc;
             }
@@ -118,7 +118,8 @@ function findArticles(db, articles, callback, date) {
         });
     } catch (error) {
         callback(articles, false);
-    };
+    }
+    ;
 }
 
 exports.returnParagraphs = returnParagraphs;

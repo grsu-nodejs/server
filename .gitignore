@@ -37,3 +37,4 @@ jspm_packages
 .sonar/
 .idea/
 database/
+/src/client/public/
