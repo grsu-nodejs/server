@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {render} from 'react-dom';
+import Article from './components/article';
 import '../assets/css/style.css';
 
 class App extends Component {
@@ -8,18 +9,16 @@ class App extends Component {
         this.state = {
             articles: []
         };
-        this.getData();
+        this.fetchData();
     }
 
     render() {
         return (
             <ul>
-                {this.state.articles.map((article) => {
+                {this.state.articles.map((article, index) => {
                     return (
-                        <li>
-                            <h2>{article.title}</h2>
-                            <p>{article.auhtor} {article.date} {article.time}</p>
-                            <p>{article.text}</p>
+                        <li key={index}>
+                            <Article article={article}/>
                         </li>
                     );
                 })}
@@ -27,8 +26,7 @@ class App extends Component {
         );
     }
 
-    getData() {
-        console.log("exec");
+    fetchData() {
         fetch('/day?year=2016&month=07&day=15')
             .then((response) => {
                 return response.json();
