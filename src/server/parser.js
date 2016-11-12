@@ -16,7 +16,7 @@ function getEntries($, entries) {
         var data = $(this);
         var title = data.find('a[rel=bookmark]').text();
         var href = data.find('a[rel=bookmark]').attr('href');
-        var id = href.substring(href.lastIndexOf('/'));
+        var id = href.substring(href.lastIndexOf('/') + 1);
         var text = data.children().first().next().find('p').text();
         var author = data.find('strong').text();
         var meta = data.find('p').text();
