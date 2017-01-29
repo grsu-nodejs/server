@@ -1,0 +1,27 @@
+// Variables
+@tablet: 768px;
+@tablet-area: 550px;
+
+@desktop: 1024px;
+@desktop-area: 970px;
+
+.article {
+  margin: 0 auto;
+  background: #e9e9e9;
+  transition: all .5s;
+  list-style-type: none;
+}
+
+@media (min-width: @tablet) and (max-width: @desktop) {
+  .article {
+    width: @tablet-area;
+    background: #6db334;
+  }
+}
+
+@media (min-width: @desktop) {
+  .article {
+    width: @desktop-area;
+    background: #b34f1a;
+  }
+}

@@ -4,9 +4,9 @@ function loadResource(pathName, response) {
     if (pathName == '/') {
         pathName = '/index.html';
     }
-    var url = './src/ui' + pathName;
+    var url = './src/client' + pathName;
 
-    fs.readFile(url, function(err, file) {
+    fs.readFile(url, function (err, file) {
         if (!err) {
             response.writeHeader(200, {
                 'Content-Type': 'text/' + pathName.substring(pathName.lastIndexOf('.') + 1)
