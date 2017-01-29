@@ -1,10 +1,10 @@
-var webpack = require('webpack');
-var path = require('path');
+const webpack = require('webpack');
+const path = require('path');
 
-var BUILD_DIR = path.resolve(__dirname, 'src/client/public');
-var APP_DIR = path.resolve(__dirname, 'src/client/app');
+const BUILD_DIR = path.resolve(__dirname, 'src/client/public');
+const APP_DIR = path.resolve(__dirname, 'src/client/app');
 
-var config = {
+const config = {
     entry: APP_DIR + '/index',
     output: {
         path: BUILD_DIR,
@@ -12,7 +12,7 @@ var config = {
     },
     module: {
         loaders: [
-            {test: /\.jsx?/, include: APP_DIR, loader: 'babel'},
+            {test: /\.jsx?$/, include: APP_DIR, loader: 'babel', query: {presets: ['react']}},
             {test: /\.css$/, loader: "style-loader!css-loader"},
             {test: /\.less$/, loader: "style!css!autoprefixer!less"}
         ]

@@ -1,64 +1,24 @@
-import React, {Component} from 'react';
-import {render} from 'react-dom';
-import Article from './components/Article';
+import React, {Component} from "react";
+import {render} from "react-dom";
+import app from "./reducers/index";
+import {Provider} from "react-redux";
+import {createStore} from "redux";
+import App from "./components/App";
+import {loadArticles} from "./actions/index";
 
-import DatePicker from 'react-datepicker';
-import moment from 'moment';
+let store = createStore(app);
 
-import '../assets/css/style.less';
-import 'react-datepicker/dist/react-datepicker.css';
-
-class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            articles: [],
-            date: moment(),
-        };
-        this.fetchArticles(this.state.date);
-        this.handleDateChange = this.handleDateChange.bind(this);
-    }
-
-    static createQueryStringForDay(date) {
-        return date.format('[/day?year=]YYYY[&month=]MM[&day=]DD');
-    }
-
-    fetchArticles(date) {
-        fetch(App.createQueryStringForDay(date)).then((response) => {
-            return response.json();
-        }).then((data) => {
-            this.setState({
-                articles: data
-            });
-        });
-    }
-
-    handleDateChange(date) {
-        this.setState({
-            date: date
-        });
-        this.fetchArticles(date);
-    }
-
-    render() {
-        return (
-            <div>
-                <DatePicker selected={this.state.date} onChange={this.handleDateChange}/>
-                <ul>
-                    {this.state.articles.map((article, index) => {
-                        return (
-                            <li className="article" key={index}>
-                                <Article article={article}/>
-                            </li>
-                        );
-                    })}
-                </ul>
-            </div>
-        );
-    }
-}
+store.subscribe(() => {
+    console.log(store.getState());
+});
 
 render(
-    <App/>,
+    <Provider store={store}>
+        <App />
+    </Provider>,
     document.getElementById('app')
 );
+
+store.dispatch(loadArticles([
+    {_id: 123, text: 'allahu akbar'}
+]));
