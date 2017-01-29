@@ -5,7 +5,7 @@ import Article from './components/Article';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
-import '../assets/css/style.css';
+import '../assets/css/style.less';
 import 'react-datepicker/dist/react-datepicker.css';
 
 class App extends Component {
@@ -47,7 +47,7 @@ class App extends Component {
                 <ul>
                     {this.state.articles.map((article, index) => {
                         return (
-                            <li key={index}>
+                            <li className="article" key={index}>
                                 <Article article={article}/>
                             </li>
                         );

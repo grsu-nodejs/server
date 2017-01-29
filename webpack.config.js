@@ -13,7 +13,8 @@ var config = {
     module: {
         loaders: [
             {test: /\.jsx?/, include: APP_DIR, loader: 'babel'},
-            {test: /\.css$/, loader: "style-loader!css-loader"}
+            {test: /\.css$/, loader: "style-loader!css-loader"},
+            {test: /\.less$/, loader: "style!css!autoprefixer!less"}
         ]
     },
     watch: true,

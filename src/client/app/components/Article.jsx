@@ -49,18 +49,18 @@ export default class Article extends Component {
 
     render() {
         let articleBody = this.state.isCollapsed ? (
-            <p>{this.props.article.text}</p>
-        ) : (this.state.paragraphs.map((paragraph, index) => {
-            return (
-                <div key={index}>
-                    {paragraph.imgsrc ?
-                        <img src={paragraph.imgsrc}/>
-                        :
-                        <p>{paragraph.text}</p>
-                    }
-                </div>
-            );
-        }));
+                <p>{this.props.article.text}</p>
+            ) : (this.state.paragraphs.map((paragraph, index) => {
+                return (
+                    <div key={index}>
+                        {paragraph.imgsrc ?
+                            <img src={paragraph.imgsrc}/>
+                            :
+                            <p>{paragraph.text}</p>
+                        }
+                    </div>
+                );
+            }));
 
         return (
             <div>
