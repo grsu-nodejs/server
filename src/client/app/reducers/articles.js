@@ -6,8 +6,6 @@ const articles = (state = [], action) => {
             return action.articles.map(entry => {
                 return {...entry, isCollapsed: true}
             });
-        case 'CHANGE_VISIBILITY':
-            return state.map(entry => article(entry, action));
         case 'EXPAND_ARTICLE':
             return state.map(entry => article(entry, action));
         default:

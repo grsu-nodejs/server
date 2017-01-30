@@ -4,23 +4,15 @@ const article = (state, action) => {
     }
 
     switch (action.type) {
-        case 'CHANGE_VISIBILITY':
-            return changeVisibility(state, action);
         case 'EXPAND_ARTICLE':
-            return changeVisibility({
+            return {
                 ...state,
-                paragraphs: action.paragraphs
-            });
+                paragraphs: action.paragraphs,
+                isCollapsed: !state.isCollapsed
+            };
         default:
             return state;
     }
-};
-
-const changeVisibility = (state) => {
-    return {
-        ...state,
-        isCollapsed: !state.isCollapsed
-    };
 };
 
 export default article;

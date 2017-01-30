@@ -1,14 +1,15 @@
 import {connect} from "react-redux";
 import Articles from "../components/Articles";
-import {expandArticle, loadArticles} from "../actions/index";
+import {fetchArticles} from "../actions/articles";
+import {fetchParagraphs} from "../actions/article";
 
 const mapDispatchToProps = (dispatch) => {
     return {
         expandArticle: (id) => {
-            dispatch(expandArticle(id))
+            dispatch(fetchParagraphs(id))
         },
         loadArticles: (date) => {
-            dispatch(loadArticles(date))
+            dispatch(fetchArticles(date))
         }
     }
 };

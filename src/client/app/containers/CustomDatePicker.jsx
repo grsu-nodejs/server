@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {changeDate, loadArticles} from "../actions/index";
+import {fetchArticles} from "../actions/articles";
 import DatePickerWrapper from "../components/DatePickerWrapper";
+import {changeDate} from "../actions/date";
 
 const mapStateToProps = (state) => {
     return {
@@ -13,7 +14,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onChange: (date) => {
             dispatch(changeDate(date));
-            dispatch(loadArticles(date));
+            dispatch(fetchArticles(date));
         }
     }
 };
