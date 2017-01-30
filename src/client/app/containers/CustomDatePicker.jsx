@@ -1,33 +1,24 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import "react-datepicker/dist/react-datepicker.css";
-import DatePicker from "react-datepicker";
-import {changeDate} from "../actions/index";
+import {changeDate, loadArticles} from "../actions/index";
+import DatePickerWrapper from "../components/DatePickerWrapper";
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
     return {
         date: state.date
     };
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onChange: (date) => {
-            dispatch(changeDate(date))
+            dispatch(changeDate(date));
+            dispatch(loadArticles(date));
         }
     }
 };
 
-class DatePickerWrapper extends Component {
-    render() {
-        const {date, onChange} = this.props;
-        return (
-            <DatePicker selected={date} onChange={onChange}/>
-        );
-    }
-}
-
-export const CustomDatePicker = connect(
+const CustomDatePicker = connect(
     mapStateToProps,
     mapDispatchToProps
 )(DatePickerWrapper);
