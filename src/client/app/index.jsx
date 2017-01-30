@@ -5,15 +5,15 @@ import {Provider} from "react-redux";
 import {createStore, applyMiddleware} from "redux";
 import App from "./components/App";
 import thunk from "redux-thunk";
+import promise from "redux-promise";
+import createLogger from "redux-logger";
 
+const logger = createLogger();
 const store = createStore(
     app,
+    applyMiddleware(thunk, promise, logger),
     applyMiddleware(thunk)
 );
-
-store.subscribe(() => {
-    console.log(store.getState());
-});
 
 render(
     <Provider store={store}>

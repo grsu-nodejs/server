@@ -32,6 +32,8 @@
     "react-dom": "^15.3.1",
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
+    "redux-logger": "^2.7.4",
+    "redux-promise": "^0.5.3",
     "redux-thunk": "^2.2.0",
     "request": "*",
     "webpack": "^1.13.2"
