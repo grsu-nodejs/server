@@ -7,10 +7,11 @@ import App from "./components/App";
 import thunk from "redux-thunk";
 import promise from "redux-promise";
 import createLogger from "redux-logger";
+import {enableBatching} from "redux-batched-actions";
 
 const logger = createLogger();
 const store = createStore(
-    app,
+    enableBatching(app),
     applyMiddleware(thunk, promise, logger),
     applyMiddleware(thunk)
 );
