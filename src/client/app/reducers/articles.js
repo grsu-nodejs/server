@@ -8,6 +8,8 @@ const articles = (state = [], action) => {
             });
         case 'EXPAND_ARTICLE':
             return state.map(entry => article(entry, action));
+        case 'TRIGGER_SPOILER':
+            return state.map(entry => article(entry, action));
         default:
             return state;
     }

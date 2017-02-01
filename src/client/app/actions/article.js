@@ -1,3 +1,10 @@
+export const triggerSpoiler = (id) => {
+    return {
+        type: 'TRIGGER_SPOILER',
+        id: id,
+    }
+};
+
 export const expandArticle = (id, paragraphs) => {
     return {
         type: 'EXPAND_ARTICLE',
@@ -6,10 +13,11 @@ export const expandArticle = (id, paragraphs) => {
     }
 };
 
-export const fetchParagraphs = (id) => {
+export const fetchParagraphsIfNeeded = (id, paragraphs) => {
     return (dispatch) => {
-        fetch(`/article?id=${id}`)
-            .then(data => data.json())
-            .then(paragraphs => dispatch(expandArticle(id, paragraphs)))
+        !!paragraphs ? dispatch(triggerSpoiler(id))
+            : fetch(`/article?id=${id}`)
+                .then(data => data.json())
+                .then(paragraphs => dispatch(expandArticle(id, paragraphs)));
     }
 };

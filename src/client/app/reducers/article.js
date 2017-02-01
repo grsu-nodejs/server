@@ -4,15 +4,23 @@ const article = (state, action) => {
     }
 
     switch (action.type) {
+        case 'TRIGGER_SPOILER':
+            return triggerSpoiler(state, action);
         case 'EXPAND_ARTICLE':
-            return {
+            return triggerSpoiler({
                 ...state,
-                paragraphs: action.paragraphs,
-                isCollapsed: !state.isCollapsed
-            };
+                paragraphs: action.paragraphs
+            });
         default:
             return state;
     }
+};
+
+const triggerSpoiler = (state) => {
+    return {
+        ...state,
+        isCollapsed: !state.isCollapsed
+    };
 };
 
 export default article;
