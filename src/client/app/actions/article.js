@@ -18,7 +18,7 @@ export const fetchParagraphsIfNeeded = (id, paragraphs) => {
     return (dispatch) => {
         Optional.ofNullable(paragraphs)
             .map(paragraphs => dispatch(triggerSpoiler(id)))
-            .orElseGet(paragraphs => {
+            .orElseGet(() => {
                 fetch(`/article?id=${id}`)
                     .then(data => data.json())
                     .then(paragraphs => dispatch(expandArticle(id, paragraphs)))
