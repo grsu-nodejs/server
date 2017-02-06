@@ -10,11 +10,20 @@ export const loadArticles = (articles) => {
 
 export const fetchArticles = (date) => {
     return (dispatch) => {
-        fetch(date.format('[/day?year=]YYYY[&month=]MM[&day=]DD'))
-            .then(data => data.json())
-            .then(paragraphs => dispatch(batchActions([
-                loadArticles(paragraphs),
-                changeDate(date)
-            ])))
+        let gen = generator(dispatch, date);
+
+        gen.next().value
+            .then(data => gen.next(data).value)
+            .then(paragraphs => gen.next(paragraphs).value);
     }
 };
+
+export function* generator(dispatch, date) {
+    let data = yield fetch(date.format('[/day?year=]YYYY[&month=]MM[&day=]DD'));
+    let json = yield data.json();
+
+    dispatch(batchActions([
+        loadArticles(json),
+        changeDate(date)
+    ]));
+}
