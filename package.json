@@ -38,6 +38,7 @@
     "redux-batched-actions": "^0.1.5",
     "redux-logger": "^2.7.4",
     "redux-promise": "^0.5.3",
+    "redux-saga": "^0.14.3",
     "redux-thunk": "^2.2.0",
     "request": "*",
     "webpack": "^1.13.2"

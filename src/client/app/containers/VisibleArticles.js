@@ -5,8 +5,8 @@ import {fetchParagraphsIfNeeded} from "../actions/article";
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        expandArticle: (id, paragraphs) => {
-            dispatch(fetchParagraphsIfNeeded(id, paragraphs))
+        expandArticle: (article) => {
+            dispatch(fetchParagraphsIfNeeded(article))
         },
         loadArticles: (date) => {
             dispatch(fetchArticles(date))

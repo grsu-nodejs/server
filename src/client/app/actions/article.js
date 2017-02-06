@@ -8,7 +8,9 @@ export const triggerSpoiler = (id) => {
     }
 };
 
-export const expandArticle = (id, paragraphs) => {
+export const expandArticle = (article) => {
+    let {_id: id, paragraphs} = article;
+
     return {
         type: 'EXPAND_ARTICLE',
         id: id,
@@ -16,15 +18,17 @@ export const expandArticle = (id, paragraphs) => {
     }
 };
 
-export const fetchParagraphsIfNeeded = (id, paragraphs) => {
+export const fetchParagraphsIfNeeded = (article) => {
     return (dispatch) => {
+        let {_id: id, paragraphs} = article;
+
         Optional.ofNullable(paragraphs)
             .map(paragraphs => dispatch(triggerSpoiler(id)))
             .orElseGet(() => co(function*() {
                 let data = yield fetch(`/article?id=${id}`);
                 let paragraphs = yield data.json();
 
-                dispatch(expandArticle(id, paragraphs));
+                dispatch(expandArticle({_id: id, paragraphs: paragraphs}));
             }));
     }
 };

@@ -21,10 +21,10 @@ export default class Article extends Component {
 
         return (
             <div>
-                <h2 onClick={() => expandArticle(article._id, article.paragraphs)}>{article.title}</h2>
+                <h2 onClick={() => expandArticle(article)}>{article.title}</h2>
                 <p>{article.author} {article.date} {article.time}</p>
                 {articleBody}
-                <button onClick={() => expandArticle(article._id, article.paragraphs)}>
+                <button onClick={() => expandArticle(article)}>
                     {article.isCollapsed ? "Развернуть" : "Свернуть"}
                 </button>
             </div>
