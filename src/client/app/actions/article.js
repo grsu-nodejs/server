@@ -1,6 +1,3 @@
-import * as Optional from "optional-js";
-import co from "co";
-
 export const triggerSpoiler = (id) => {
     return {
         type: 'TRIGGER_SPOILER',
@@ -18,17 +15,9 @@ export const expandArticle = (article) => {
     }
 };
 
-export const fetchParagraphsIfNeeded = (article) => {
-    return (dispatch) => {
-        let {_id: id, paragraphs} = article;
-
-        Optional.ofNullable(paragraphs)
-            .map(paragraphs => dispatch(triggerSpoiler(id)))
-            .orElseGet(() => co(function*() {
-                let data = yield fetch(`/article?id=${id}`);
-                let paragraphs = yield data.json();
-
-                dispatch(expandArticle({_id: id, paragraphs: paragraphs}));
-            }));
+export const fetchParagraphs = (article) => {
+    return {
+        type: 'FETCH_PARAGRAPHS',
+        article: article,
     }
 };

@@ -39,7 +39,6 @@
     "redux-logger": "^2.7.4",
     "redux-promise": "^0.5.3",
     "redux-saga": "^0.14.3",
-    "redux-thunk": "^2.2.0",
     "request": "*",
     "webpack": "^1.13.2"
   },
@@ -49,8 +48,6 @@
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^2.0.1",
-    "jscs": "^3.0.7",
-    "jscs-angular": "^2.0.0",
     "less-loader": "^2.2.3",
     "mocha": "^3.2.0",
     "should": "^11.2.0",

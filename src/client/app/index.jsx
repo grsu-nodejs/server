@@ -4,17 +4,21 @@ import app from "./reducers/index";
 import {Provider} from "react-redux";
 import {createStore, applyMiddleware} from "redux";
 import App from "./components/App";
-import thunk from "redux-thunk";
 import promise from "redux-promise";
 import createLogger from "redux-logger";
 import {enableBatching} from "redux-batched-actions";
+import createSagaMiddleware from "redux-saga";
+import sagas from "./sagas/index";
 
 const logger = createLogger();
+const sagaMiddleware = createSagaMiddleware();
+
 const store = createStore(
     enableBatching(app),
-    applyMiddleware(thunk, promise, logger),
-    applyMiddleware(thunk)
+    applyMiddleware(sagaMiddleware, promise, logger),
 );
+
+sagaMiddleware.run(sagas);
 
 render(
     <Provider store={store}>
