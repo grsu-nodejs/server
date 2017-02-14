@@ -5,6 +5,7 @@ import {changeDate} from "../actions/date";
 import {batchActions} from "redux-batched-actions";
 import * as Optional from "optional-js";
 import * as constants from "../constants/constants";
+import {showLoading, hideLoading} from 'react-redux-loading-bar';
 
 function* fetchParagraphsIfNeeded(action) {
     let {_id: id, paragraphs} = action.article;
@@ -14,22 +15,28 @@ function* fetchParagraphsIfNeeded(action) {
             yield put(triggerSpoiler(id))
         })
         .orElseGet(function*() {
+            yield put(showLoading());
             let data = yield fetch(`/article?id=${id}`);
             let paragraphs = yield data.json();
 
-            yield put(expandArticle({_id: id, paragraphs: paragraphs}));
+            yield put(batchActions([
+                hideLoading(),
+                expandArticle({_id: id, paragraphs: paragraphs})
+            ]));
         });
 }
 
 function* fetchArticles(action) {
     let {date} = action;
+    yield put(showLoading());
 
     let data = yield fetch(date.format('[/day?year=]YYYY[&month=]MM[&day=]DD'));
     let articles = yield data.json();
 
     yield put(batchActions([
         loadArticles(articles),
-        changeDate(date)
+        changeDate(date),
+        hideLoading()
     ]))
 }
 
