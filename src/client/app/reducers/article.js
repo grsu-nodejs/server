@@ -1,12 +1,14 @@
+import * as constants from "../constants/constants";
+
 const article = (state, action) => {
     if (state._id != action.id) {
         return state;
     }
 
     switch (action.type) {
-        case 'TRIGGER_SPOILER':
+        case constants.TRIGGER_SPOILER:
             return triggerSpoiler(state, action);
-        case 'EXPAND_ARTICLE':
+        case constants.EXPAND_ARTICLE:
             return triggerSpoiler({
                 ...state,
                 paragraphs: action.paragraphs

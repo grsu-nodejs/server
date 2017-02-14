@@ -11,3 +11,8 @@ export default class DatePickerWrapper extends Component {
         );
     }
 }
+
+DatePickerWrapper.propTypes = {
+    date: React.PropTypes.object.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+};

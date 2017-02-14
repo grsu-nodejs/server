@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {render} from "react-dom";
-import Article from "./Article";
+import Article from "../containers/Article";
 
 export default class Articles extends Component {
     constructor(props) {
@@ -11,7 +11,7 @@ export default class Articles extends Component {
     }
 
     render() {
-        const {articles, expandArticle} = this.props;
+        const {articles} = this.props;
 
         return (
             <div>
@@ -19,7 +19,7 @@ export default class Articles extends Component {
                     {articles.map((article) => {
                         return (
                             <li className="article" key={article._id}>
-                                <Article article={article} expandArticle={expandArticle}/>
+                                <Article article={article}/>
                             </li>
                         );
                     })}
@@ -28,3 +28,8 @@ export default class Articles extends Component {
         );
     }
 }
+
+Articles.propTypes = {
+    date: React.PropTypes.object.isRequired,
+    loadArticles: React.PropTypes.func.isRequired,
+};

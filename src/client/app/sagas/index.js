@@ -4,6 +4,7 @@ import {loadArticles} from "../actions/articles";
 import {changeDate} from "../actions/date";
 import {batchActions} from "redux-batched-actions";
 import * as Optional from "optional-js";
+import * as constants from "../constants/constants";
 
 function* fetchParagraphsIfNeeded(action) {
     let {_id: id, paragraphs} = action.article;
@@ -34,8 +35,8 @@ function* fetchArticles(action) {
 
 function* sagas() {
     yield [
-        takeEvery("FETCH_PARAGRAPHS", fetchParagraphsIfNeeded),
-        takeEvery("FETCH_ARTICLES", fetchArticles)
+        takeEvery(constants.FETCH_PARAGRAPHS, fetchParagraphsIfNeeded),
+        takeEvery(constants.FETCH_ARTICLES, fetchArticles)
     ]
 }
 

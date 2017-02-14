@@ -17,9 +17,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-const CustomDatePicker = connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(DatePickerWrapper);
-
-export default CustomDatePicker;

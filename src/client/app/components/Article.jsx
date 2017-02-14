@@ -31,3 +31,10 @@ export default class Article extends Component {
         );
     }
 }
+
+Article.propTypes = {
+    article: React.PropTypes.shape({
+        _id: React.PropTypes.string.isRequired
+    }).isRequired,
+    expandArticle: React.PropTypes.func.isRequired,
+};
