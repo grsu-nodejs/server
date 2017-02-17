@@ -14,7 +14,7 @@ export default class Articles extends Component {
         const {articles} = this.props;
 
         return (
-            <div>
+            <div className="articles-list">
                 <ul>
                     {articles.map((article) => {
                         return (

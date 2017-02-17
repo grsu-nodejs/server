@@ -7,7 +7,7 @@ export default class DatePickerWrapper extends Component {
         const {date, onChange} = this.props;
 
         return (
-            <DatePicker selected={date} onChange={onChange}/>
+            <DatePicker className="header__date-picker" selected={date} onChange={onChange}/>
         );
     }
 }

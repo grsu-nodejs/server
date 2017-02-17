@@ -1,17 +1,15 @@
 import React, {Component} from "react";
 import {render} from "react-dom";
 import Articles from "../containers/Articles";
-import DatePicker from "../containers/DatePicker";
-import LoadingBar from 'react-redux-loading-bar'
+import Header from "./Header";
 
-import "../../assets/css/style.less";
+require.context('../../assets/styles', true, /(\.less$)/);
 
 export default class App extends Component {
     render() {
         return (
             <div>
-                <LoadingBar className="loading-bar" />
-                <DatePicker/>
+                <Header/>
                 <Articles/>
             </div>
         );
