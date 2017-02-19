@@ -21,8 +21,8 @@ export default class Article extends Component {
 
         return (
             <div>
-                <h2 onClick={() => expandArticle(article)}>{article.title}</h2>
-                <p>{article.author} {article.date} {article.time}</p>
+                <h2>{article.title}</h2>
+                <p className="info">Автор: {article.author}, {article.date}, {article.time}</p>
                 {articleBody}
                 <button onClick={() => expandArticle(article)}>
                     {article.isCollapsed ? "Развернуть" : "Свернуть"}

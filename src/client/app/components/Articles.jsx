@@ -14,11 +14,11 @@ export default class Articles extends Component {
         const {articles} = this.props;
 
         return (
-            <div className="articles-list">
-                <ul>
+            <div>
+                <ul className="articles-list">
                     {articles.map((article) => {
                         return (
-                            <li className="article" key={article._id}>
+                            <li className="articles-list__item" key={article._id}>
                                 <Article article={article}/>
                             </li>
                         );
