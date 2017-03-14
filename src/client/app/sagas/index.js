@@ -3,18 +3,15 @@ import {triggerSpoiler, expandArticle} from "../actions/article";
 import {loadArticles} from "../actions/articles";
 import {changeDate} from "../actions/date";
 import {batchActions} from "redux-batched-actions";
-import * as Optional from "optional-js";
 import * as constants from "../constants/constants";
-import {showLoading, hideLoading} from 'react-redux-loading-bar';
+import {showLoading, hideLoading} from "react-redux-loading-bar";
 
 function* fetchParagraphsIfNeeded(action) {
     let {_id: id, paragraphs} = action.article;
 
-    yield* Optional.ofNullable(paragraphs)
-        .map(function*() {
-            yield put(triggerSpoiler(id))
-        })
-        .orElseGet(function*() {
+    yield !!paragraphs
+        ? put(triggerSpoiler(id))
+        : function*() {
             yield put(showLoading());
             let data = yield fetch(`/article?id=${id}`);
             let paragraphs = yield data.json();
@@ -23,7 +20,7 @@ function* fetchParagraphsIfNeeded(action) {
                 hideLoading(),
                 expandArticle({_id: id, paragraphs: paragraphs})
             ]));
-        });
+        }();
 }
 
 function* fetchArticles(action) {
