@@ -1,7 +1,7 @@
-import React, {Component} from "react";
-import {render} from "react-dom";
-import Articles from "../containers/Articles";
-import Header from "./Header";
+import React, {Component} from 'react';
+import {render} from 'react-dom';
+import Articles from '../containers/Articles';
+import Header from './Header';
 
 require.context('../../assets/styles', true, /(\.less$)/);
 

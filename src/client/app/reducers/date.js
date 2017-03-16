@@ -1,5 +1,5 @@
-import moment from "moment";
-import * as constants from "../constants/constants";
+import moment from 'moment';
+import * as constants from '../constants/constants';
 
 const date = (state = moment(), action) => {
     switch (action.type) {

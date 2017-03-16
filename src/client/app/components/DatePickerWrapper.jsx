@@ -1,7 +1,7 @@
-import React, {Component} from "react";
-import "react-datepicker/dist/react-datepicker.css";
-import DatePicker from "react-datepicker";
-import moment from "moment";
+import React, {Component} from 'react';
+import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 
 export default class DatePickerWrapper extends Component {
     render() {

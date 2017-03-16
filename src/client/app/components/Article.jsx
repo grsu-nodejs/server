@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import {render} from "react-dom";
+import React, {Component} from 'react';
+import {render} from 'react-dom';
 
 export default class Article extends Component {
     render() {
@@ -25,7 +25,7 @@ export default class Article extends Component {
                 <p className="info">Автор: {article.author}, {article.date}, {article.time}</p>
                 {articleBody}
                 <button onClick={() => expandArticle(article)}>
-                    {article.isCollapsed ? "Развернуть" : "Свернуть"}
+                    {article.isCollapsed ? 'Развернуть' : 'Свернуть'}
                 </button>
             </div>
         );

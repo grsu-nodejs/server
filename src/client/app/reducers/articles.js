@@ -1,5 +1,5 @@
-import article from "./article";
-import * as constants from "../constants/constants";
+import article from './article';
+import * as constants from '../constants/constants';
 
 const articles = (state = [], action) => {
     switch (action.type) {

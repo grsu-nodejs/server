@@ -1,4 +1,4 @@
-import * as constants from "../constants/constants";
+import * as constants from '../constants/constants';
 
 const article = (state, action) => {
     if (state._id != action.id) {

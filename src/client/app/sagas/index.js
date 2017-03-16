@@ -1,15 +1,15 @@
-import {put, takeEvery} from "redux-saga/effects";
-import {triggerSpoiler, expandArticle} from "../actions/article";
-import {loadArticles} from "../actions/articles";
-import {changeDate} from "../actions/date";
-import {batchActions} from "redux-batched-actions";
-import * as constants from "../constants/constants";
-import {showLoading, hideLoading} from "react-redux-loading-bar";
+import {put, takeEvery} from 'redux-saga/effects';
+import {triggerSpoiler, expandArticle} from '../actions/article';
+import {loadArticles} from '../actions/articles';
+import {changeDate} from '../actions/date';
+import {batchActions} from 'redux-batched-actions';
+import * as constants from '../constants/constants';
+import {showLoading, hideLoading} from 'react-redux-loading-bar';
 
 function* fetchParagraphsIfNeeded(action) {
     let {_id: id, paragraphs} = action.article;
 
-    yield !!paragraphs
+    yield paragraphs
         ? put(triggerSpoiler(id))
         : function*() {
             yield put(showLoading());
@@ -34,14 +34,14 @@ function* fetchArticles(action) {
         loadArticles(articles),
         changeDate(date),
         hideLoading()
-    ]))
+    ]));
 }
 
 function* sagas() {
     yield [
         takeEvery(constants.FETCH_PARAGRAPHS, fetchParagraphsIfNeeded),
         takeEvery(constants.FETCH_ARTICLES, fetchArticles)
-    ]
+    ];
 }
 
 export default sagas;

@@ -1,6 +1,6 @@
-import React, {Component} from "react";
-import {render} from "react-dom";
-import Article from "../containers/Article";
+import React, {Component} from 'react';
+import {render} from 'react-dom';
+import Article from '../containers/Article';
 
 export default class Articles extends Component {
     constructor(props) {
