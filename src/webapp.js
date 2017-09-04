@@ -1,6 +1,6 @@
-var server = require('./server/server');
-var router = require('./server/router');
-var requestHandlers = require('./server/requestHandlers');
+var server = require('./server');
+var router = require('./router');
+var requestHandlers = require('./requestHandlers');
 
 var handlers = {
     '/allArticles': requestHandlers.allArticles,

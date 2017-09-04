@@ -6,17 +6,10 @@ var assert = require('assert');
 var table = 'articles';
 var url = 'mongodb://localhost:27017/s13';
 
-
 var monthsNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 
 function jsonResponse(res, content) {
-    res.writeHead(200, {
-        'Content-Type': 'application/json; charset=utf-8'
-    });
-
-    res.write(JSON.stringify(content));
-
-    res.end('');
+    res.body = JSON.stringify(content);
 }
 
 function saveAndReturnArticle(res, content) {
