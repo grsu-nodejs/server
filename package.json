@@ -5,8 +5,7 @@
   "main": "webapp.js",
   "scripts": {
     "test": "mocha",
-    "start": "node src/webapp.js",
-    "debug": "node-debug src/webapp.js"
+    "start": "node src/webapp.js"
   },
   "license": "ISC",
   "repository": {
@@ -14,16 +13,16 @@
     "url": "git+https://github.com/gleifvo/grsu-nodejs.git"
   },
   "dependencies": {
+    "axios": "^0.16.2",
+    "axios-retry": "^3.0.1",
     "cheerio": "*",
     "koa": "^2.3.0",
-    "koa-static": "^4.0.1",
-    "moment": "^2.16.0",
-    "mongodb": "latest",
-    "nconf": "latest",
-    "request": "*"
+    "koa-router": "^7.2.1",
+    "lodash": "^4.17.4",
+    "nconf": "latest"
   },
   "devDependencies": {
-    "eslint": "latest",
+    "eslint": "^4.6.1",
     "eslint-config-standard": "latest",
     "eslint-plugin-promise": "latest",
     "eslint-plugin-standard": "latest",

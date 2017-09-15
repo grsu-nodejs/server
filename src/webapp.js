@@ -1,11 +1,18 @@
-var server = require('./server');
-var router = require('./router');
-var requestHandlers = require('./requestHandlers');
+const Koa = require('koa');
+const config = require('../config');
+const Router = require('koa-router');
 
-var handlers = {
-    '/allArticles': requestHandlers.allArticles,
-    '/day': requestHandlers.fetchDay,
-    '/article': requestHandlers.fetchArticle
-};
+const app = new Koa();
+const router = new Router();
+const port = config.get('port');
+const { getArticles, getParagraphs } = require('./controllers/articles');
+const { errorHandler } = require('./middlewares');
 
-server.start(router.route, handlers);
+router.get('/day', getArticles);
+router.get('/article', getParagraphs);
+
+app.use(errorHandler);
+app.use(router.routes());
+
+app.listen(port);
+console.log(`listening on port ${port}`);
