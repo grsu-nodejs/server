@@ -1,10 +1,10 @@
-const _ = require('lodash');
+const R = require('ramda');
 
 module.exports = async (ctx, next) => {
     try {
         await next();
     } catch (error) {
-        ctx.body = { message: _.get(error, 'message', 'Technical error') };
-        ctx.status = _.get(error, 'response.status', 500);
+        ctx.body = { message: error.message || 'Technical error' };
+        ctx.status = R.path(['response', 'status'], error) || 500;
     }
 };

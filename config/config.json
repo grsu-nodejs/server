@@ -1,7 +1,6 @@
 {
   "port": 8080,
   "s13": {
-    "api": "http://s13.ru/archives",
-    "retries": 3
+    "api": "http://s13.ru/archives"
   }
 }

@@ -2,10 +2,10 @@
   "name": "scraper",
   "version": "1.0.0",
   "description": "s13 scraper",
-  "main": "webapp.js",
+  "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "start": "node src/webapp.js"
+    "start": "node src/index.js"
   },
   "license": "ISC",
   "repository": {
@@ -14,12 +14,12 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
-    "axios-retry": "^3.0.1",
     "cheerio": "*",
     "koa": "^2.3.0",
     "koa-router": "^7.2.1",
-    "lodash": "^4.17.4",
-    "nconf": "latest"
+    "nconf": "latest",
+    "ramda": "^0.24.1",
+    "winston": "@next"
   },
   "devDependencies": {
     "eslint": "^4.6.1",
